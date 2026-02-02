@@ -35,6 +35,13 @@ public class PlayerController : MonoBehaviour
     }
     public MOVE_TYPE move = MOVE_TYPE.STOP;//初期状態は停止させる
 
+    //Tile破壊を担当するスクリプト
+    public TileDeleteContoroller tileDeleteContoroller;
+
+    //攻撃のクールダウン
+    private float attackCooldown = 0.5f;
+    private float attackTimer = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,11 +71,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //攻撃
-        if (Input.GetKeyDown(KeyCode.Space))
+        // 攻撃（Spaceキー）
+        if (Input.GetKeyDown(KeyCode.Space) && attackTimer <= 0f)
         {
-            //animator.SetBool("Attack", true);
-            //Attack();
+            Attack();
+            attackTimer = attackCooldown;
         }
 
         //ガード
@@ -155,6 +162,32 @@ public class PlayerController : MonoBehaviour
         //{
         //    //animator.SetBool("Attack", false);
         //}
+    }
+
+    // 攻撃処理（敵ヒットと、Tile破壊を行う）
+    private void Attack()
+    {
+        // 1) 敵への当たり判定（既存）
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, attaackRadius, enemyLayer);
+        foreach (var e in hitEnemies)
+        {
+            // 敵にダメージを与える処理をここに
+            Debug.Log("Hit enemy: " + e.name);
+        }
+
+        // 2) タイル（ステージ）への当たり判定 -> Tile を壊す
+        // AttackPoint を前方に置いている前提。必要なら transform.localScale.x を使って前方へオフセットする
+        if (tileDeleteContoroller != null)
+        {
+            // ターゲット位置を AttackPoint.position にする（AttackPoint をプレイヤー正面にセットする）
+            Vector3 attackPos = AttackPoint.position;
+
+            // もし方向に応じて1セル先を狙いたければこんなオフセットも可：
+            // attackPos += new Vector3(Mathf.Sign(transform.localScale.x) * 0.6f, 0f, 0f);
+
+            // ワールド位置から Tile をダメージ（1ダメージ）
+            tileDeleteContoroller.DamageCellAtWorld(attackPos, 1);
+        }
     }
 
 
