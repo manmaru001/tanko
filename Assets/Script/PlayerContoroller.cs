@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public float attaackRadius;
 
     //移動関係
-    private float RunSpeed = 3.0f;
+    private float RunSpeed = 12.0f;
     private float JumpPower = 300.0f;
     private float PushSpeed = 3.0f;
 
@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     //Tile破壊を担当するスクリプト
     public TileDeleteContoroller tileDeleteContoroller;
+
+    public TileDigging tileDigging;
 
     //攻撃のクールダウン
     private float attackCooldown = 0.5f;
@@ -53,6 +55,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        attackTimer -= Time.deltaTime;
+
         enemy = GameObject.Find("Enemy");
 
         //ダッシュ準備
@@ -72,10 +76,17 @@ public class PlayerController : MonoBehaviour
         }
 
         // 攻撃（Spaceキー）
-        if (Input.GetKeyDown(KeyCode.Space) && attackTimer <= 0f)
+        //if (Input.GetKeyDown(KeyCode.Space)/* && attackTimer <= 0f*/)
+        //{
+        //    Attack();
+        //    attackTimer = attackCooldown;
+        //    tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
+        //}
+        if (Input.GetKey(KeyCode.Space)/* && attackTimer <= 0f*/)
         {
             Attack();
             attackTimer = attackCooldown;
+            tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
         }
 
         //ガード
@@ -128,13 +139,13 @@ public class PlayerController : MonoBehaviour
         else if (move == MOVE_TYPE.RIGHT)
         {
             scale.x = 1; // 右向き
-            RunSpeed = 3;
+            RunSpeed = 12;
 
         }
         else if (move == MOVE_TYPE.LEFT)
         {
             scale.x = -1; // 左向き
-            RunSpeed = -3;
+            RunSpeed = -12;
 
         }
         transform.localScale = scale; // scaleを代入
@@ -185,8 +196,10 @@ public class PlayerController : MonoBehaviour
             // もし方向に応じて1セル先を狙いたければこんなオフセットも可：
             // attackPos += new Vector3(Mathf.Sign(transform.localScale.x) * 0.6f, 0f, 0f);
 
-            // ワールド位置から Tile をダメージ（1ダメージ）
-            tileDeleteContoroller.DamageCellAtWorld(attackPos, 1);
+            // タイル削除メソッドを呼び出す
+            tileDeleteContoroller.DamageCellAtWorld(attackPos);
+
+            tileDigging.DigArea(attackPos, 3);
         }
     }
 
