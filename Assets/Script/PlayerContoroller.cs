@@ -68,20 +68,27 @@ public class PlayerController : MonoBehaviour
         //ジャンプ
         if (GroundCheck())
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 //animator.SetBool("Jump", true);
                 Jump();
             }
         }
 
-        // 攻撃（Spaceキー）
-        if (Input.GetKey(KeyCode.Space)/* && attackTimer <= 0f*/)
+        //攻撃（マウス左クリック）
+        if (Input.GetMouseButton(0))
         {
             Attack();
             attackTimer = attackCooldown;
             tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
         }
+        // 攻撃（Spaceキー）
+        //if (Input.GetKey(KeyCode.Space)/* && attackTimer <= 0f*/)
+        //{
+        //    Attack();
+        //    attackTimer = attackCooldown;
+        //    tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
+        //}
 
         //ガード
         Guard();
@@ -193,7 +200,7 @@ public class PlayerController : MonoBehaviour
             // タイル削除メソッドを呼び出す
             tileDeleteContoroller.DamageCellAtWorld(attackPos);
 
-            tileDigging.DigArea(attackPos, 3);
+            tileDigging.DigArea(attackPos, 1);
         }
     }
 
