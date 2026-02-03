@@ -419,8 +419,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1164855688}
-  - {fileID: 1222301694}
   - {fileID: 2006689110}
   - {fileID: 1626335084}
   m_Father: {fileID: 0}
@@ -150019,9 +150017,9 @@ GameObject:
   - component: {fileID: 1893780902}
   - component: {fileID: 1893780901}
   - component: {fileID: 1893780903}
-  - component: {fileID: 1893780906}
   - component: {fileID: 1893780904}
   - component: {fileID: 1893780905}
+  - component: {fileID: 2006689112}
   m_Layer: 0
   m_Name: Player
   m_TagString: player
@@ -150207,8 +150205,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2006689110}
-  - component: {fileID: 2006689113}
-  - component: {fileID: 2006689112}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
