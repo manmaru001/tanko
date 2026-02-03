@@ -150279,7 +150279,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   checkRadius: 0.12
-  minHeightMultiplier: 0.5
+  minHeightMultiplier: 0.1
   maxHeightMultiplier: 2
   useHeightCurve: 0
   heightMultiplierCurve:
@@ -150287,10 +150287,10 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -150299,7 +150299,7 @@ MonoBehaviour:
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -150477,7 +150477,7 @@ MonoBehaviour:
   AttackPoint: {fileID: 1452375333}
   StageLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
