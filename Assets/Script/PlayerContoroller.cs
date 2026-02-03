@@ -35,14 +35,18 @@ public class PlayerController : MonoBehaviour
     }
     public MOVE_TYPE move = MOVE_TYPE.STOP;//初期状態は停止させる
 
-    //Tile破壊を担当するスクリプト
-    public TileDeleteContoroller tileDeleteContoroller;
-
     public TileDigging tileDigging;
 
     //攻撃のクールダウン
     private float attackCooldown = 0.5f;
     private float attackTimer = 0f;
+
+    //掘削範囲（変更可）
+    public float digRange = 1.0f;
+
+
+    //ボム設置
+    public GameObject bombPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -89,6 +93,12 @@ public class PlayerController : MonoBehaviour
         //    attackTimer = attackCooldown;
         //    tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
         //}
+
+        //ボム設置（Bキー）
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            PlaceBomb();
+        }
 
         //ガード
         Guard();
@@ -189,18 +199,12 @@ public class PlayerController : MonoBehaviour
 
         // 2) タイル（ステージ）への当たり判定 -> Tile を壊す
         // AttackPoint を前方に置いている前提。必要なら transform.localScale.x を使って前方へオフセットする
-        if (tileDeleteContoroller != null)
+        if (tileDigging != null)
         {
             // ターゲット位置を AttackPoint.position にする（AttackPoint をプレイヤー正面にセットする）
             Vector3 attackPos = AttackPoint.position;
 
-            // もし方向に応じて1セル先を狙いたければこんなオフセットも可：
-            // attackPos += new Vector3(Mathf.Sign(transform.localScale.x) * 0.6f, 0f, 0f);
-
-            // タイル削除メソッドを呼び出す
-            tileDeleteContoroller.DamageCellAtWorld(attackPos);
-
-            tileDigging.DigArea(attackPos, 1);
+            tileDigging.DigArea(attackPos, 1 * (int)digRange);
         }
     }
 
@@ -239,6 +243,14 @@ public class PlayerController : MonoBehaviour
     public float GetSpeed()
     {
         return RunSpeed;
+    }
+
+    //
+    void PlaceBomb()
+    {
+        Vector3 pos = transform.position; // または AttackPoint.position やワールドスナップ
+        GameObject b = Instantiate(bombPrefab, pos, Quaternion.identity);
+        b.GetComponent<BombController>().Ignite();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
