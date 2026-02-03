@@ -71,17 +71,11 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 //animator.SetBool("Jump", true);
-                //Jump();
+                Jump();
             }
         }
 
         // 攻撃（Spaceキー）
-        //if (Input.GetKeyDown(KeyCode.Space)/* && attackTimer <= 0f*/)
-        //{
-        //    Attack();
-        //    attackTimer = attackCooldown;
-        //    tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
-        //}
         if (Input.GetKey(KeyCode.Space)/* && attackTimer <= 0f*/)
         {
             Attack();
@@ -160,7 +154,7 @@ public class PlayerController : MonoBehaviour
 
         //if (!jumpArrow)
         //{
-        rb.AddForce(Vector2.up * JumpPower);
+            rb.AddForce(Vector2.up * JumpPower);
         //}
     }
 
@@ -227,7 +221,7 @@ public class PlayerController : MonoBehaviour
     private bool GroundCheck()
     {
         Vector3 startposition = transform.position;
-        Vector3 endposition = transform.position - transform.up * 0.6f;
+        Vector3 endposition = transform.position - transform.up * 4.0f;
 
         Debug.DrawLine(startposition, endposition, Color.red);
 
