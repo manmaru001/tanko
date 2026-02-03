@@ -11,20 +11,22 @@ public class ShowImage : MonoBehaviour
 
     void Start()
     {
+        // 画像を非表示にする
         a.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ShowCountdown.CountZero == true)
+        // もしカウントが0となった時、画像を表示させる
+        if (ShowCountdown.m_cuntZero == true)
         a.SetActive(true);
     }
 
     public void OnRetryButton()
     {
         // フラグを元に戻す
-        ShowCountdown.CountZero = false;
+        ShowCountdown.m_cuntZero = false;
 
         // タイマーをリセットして、すぐにスタートさせる
         m_gameTimer.OnReset();

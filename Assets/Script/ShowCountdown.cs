@@ -11,22 +11,32 @@ public class ShowCountdown : MonoBehaviour
     public GameTimer m_gameTimer;
 
     private Text m_txt;
-    public static bool CountZero = false;
+
+    // 残りタイムが0になった時のフラグ
+    public static bool m_cuntZero = false;
 
     private void Start()
     {
+        // テキストを取得
         m_txt = GetComponent<Text>();
-        CountZero = false;
+
+        // カウントは0じゃない
+        m_cuntZero = false;
     }
 
     private void Update()
     {
+        // ゲームタイマ―から取得された値を取得、代入しカウントへ適応
         float fShowTime = Mathf.Clamp(m_fStartTime - m_gameTimer.CurrentTime, 0f, m_fStartTime);
 
+
+        // カウントが0になったフラグを立てる
         if (fShowTime == 0)
         {
-            CountZero = true;
+            m_cuntZero = true;
         }
+
+        // テキストとして出力
         m_txt.text = string.Format(m_strFormat, fShowTime);
     }
 }
