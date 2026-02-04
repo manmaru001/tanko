@@ -4,79 +4,71 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //物理&アニメーター
+    // 物理&アニメーター
     private Rigidbody2D rb;
     private Animator animator;
 
-    //攻撃当たり判定(位置)
+    // 攻撃当たり判定(位置)
     public Transform AttackPoint;
 
-    //サウンド
+    // サウンド（Scene上の SoundManager オブジェクトを Inspector でセット）
     public GameObject SoundManager;
 
-    //当たり判定(レイヤー)
+    // 当たり判定(レイヤー)
     public LayerMask StageLayer;
     public LayerMask enemyLayer;
     public LayerMask BlockLayer;
 
-    //エネミーオブジェクト
-    [SerializeField] private GameObject enemy = null;
-
-    //攻撃当たり判定半径
+    // 攻撃当たり判定半径
     public float attaackRadius;
 
-    //移動関係
+    // 移動関係
     private float RunSpeed = 12.0f;
     private float JumpPower = 300.0f;
-    private float PushSpeed = 3.0f;
-    //移動速度補正
+
+    // 移動速度補正
     public float speedCorrection = 1.0f;
 
-    public enum MOVE_TYPE
-    {
-        STOP,
-        RIGHT,
-        LEFT,
-    }
-    public MOVE_TYPE move = MOVE_TYPE.STOP;//初期状態は停止させる
+    public enum MOVE_TYPE { STOP, RIGHT, LEFT }
+    public MOVE_TYPE move = MOVE_TYPE.STOP;
 
     public TileDigging tileDigging;
 
-    //攻撃のクールダウン
-    private float attackCooldown = 0.5f;
+    // 攻撃のクールダウン
+    public float attackCooldown = 0.25f; // 連打間隔（秒）
     private float attackTimer = 0f;
 
-    //掘削範囲（変更可）
+    // 掘削範囲（変更可）
     public float digRange = 1.0f;
 
+    // 掘削アニメーション時間（isDig を true にしておく時間）
+    [Tooltip("掘削アニメーションを isDig=true にしておく秒数")]
+    public float digAnimTime = 0.18f;
 
-    //ボム設置
-    public GameObject bombPrefab;//ボムプレハブ
-    public int maxBombs = 3;//設置可能ボム数
+    // ボム設置
+    public GameObject bombPrefab;
+    public int maxBombs = 3;
 
+    // 内部：アニメ coroutine 管理
+    Coroutine digAnimCoroutine = null;
 
-    // Start is called before the first frame update
     void Start()
     {
-
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         attackTimer -= Time.deltaTime;
 
-        enemy = GameObject.Find("Enemy");
-
-        //ダッシュ準備
+        // ダッシュ準備
         DashPreparation();
 
-        //攻撃準備
+        // 攻撃準備（アニメ系の事前処理があれば）
         AttackPreparation();
 
-        //ジャンプ
+        // ジャンプ入力
         if (GroundCheck())
         {
             if (Input.GetKeyDown(KeyCode.W))
@@ -90,186 +82,147 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isJump", false);
         }
 
-        //攻撃（マウス左クリック）
-        if (Input.GetMouseButton(0))
+        // 掘削 / 攻撃：マウス左ボタンをホールドで連続掘削（attackCooldown で制御）
+        if (Input.GetMouseButton(0) && attackTimer <= 0f)
         {
-            Attack();
             attackTimer = attackCooldown;
-            tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
-            SoundManager.GetComponent<SoundManager>().PlaySFX("Sound_Dig");
 
-            if (!animator.GetBool("isDig"))
+            // Attack() は壊したタイル数を返すようにする
+            int removed = Attack();
+
+            // タイルが一つでも壊れたら効果音を鳴らす
+            if (removed > 0)
             {
-                animator.SetBool("isDig", true);
+                if (SoundManager != null)
+                {
+                    var sm = SoundManager.GetComponent<SoundManager>();
+                    if (sm != null) sm.PlaySFX("Sound_Dig");
+                }
             }
-        }
-        else 
-        {
-            animator.SetBool("isDig", false);
-        }
-        // 攻撃（Spaceキー）
-        //if (Input.GetKey(KeyCode.Space)/* && attackTimer <= 0f*/)
-        //{
-        //    Attack();
-        //    attackTimer = attackCooldown;
-        //    tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
-        //}
 
-        //ボム設置（Bキー）
+            // アニメーション：掘削中フラグを短時間 true にする
+            if (digAnimCoroutine != null) StopCoroutine(digAnimCoroutine);
+            digAnimCoroutine = StartCoroutine(DoDigAnimCoroutine(digAnimTime));
+        }
+
+        // ボム設置
         if (Input.GetKeyDown(KeyCode.B) && maxBombs > 0)
         {
             PlaceBomb();
         }
 
-        //ガード
+        // ガード
         Guard();
-        //Debug.Log(this.tag);
-
     }
+
     private void FixedUpdate()
     {
-        //ダッシュ
         Dash();
     }
 
-    //ダッシュ準備
+    // ダッシュ準備（入力取得）
     private void DashPreparation()
     {
         float horizonkey = Input.GetAxis("Horizontal");
-
-        // 取得した水平方向のキーを元に分岐
         if (horizonkey == 0)
         {
-            // キー入力なしの場合は停止
             move = MOVE_TYPE.STOP;
             animator.SetBool("isWalk", false);
         }
         else if (horizonkey > 0)
         {
-            // キー入力が正の場合は右へ移動する
             move = MOVE_TYPE.RIGHT;
             animator.SetBool("isWalk", true);
         }
         else if (horizonkey < 0)
         {
-            // キー入力が負の場合は左へ移動する
             move = MOVE_TYPE.LEFT;
             animator.SetBool("isWalk", true);
         }
     }
 
-    //ダッシュ
+    // ダッシュ（FixedUpdate）
     private void Dash()
     {
-        // Playerの方向を決めるためにスケールの取り出し
         Vector3 scale = transform.localScale;
-        if (move == MOVE_TYPE.STOP)
-        {
-            RunSpeed = 0;
+        if (move == MOVE_TYPE.STOP) RunSpeed = 0;
+        else if (move == MOVE_TYPE.RIGHT) { scale.x = 1; RunSpeed = 12; }
+        else if (move == MOVE_TYPE.LEFT) { scale.x = -1; RunSpeed = -12; }
 
-        }
-        else if (move == MOVE_TYPE.RIGHT)
-        {
-            scale.x = 1; // 右向き
-            RunSpeed = 12;
-
-        }
-        else if (move == MOVE_TYPE.LEFT)
-        {
-            scale.x = -1; // 左向き
-            RunSpeed = -12;
-
-        }
-        transform.localScale = scale; // scaleを代入
-                                      // rigidbody2Dのvelocity(速度)へ取得したRunSpeedを入れる。y方向は動かないのでそのままにする
+        transform.localScale = scale;
         rb.velocity = new Vector2(RunSpeed * speedCorrection, rb.velocity.y);
     }
 
-    //ジャンプ
     private void Jump()
     {
-        float v = Input.GetAxisRaw("Vertical");
-
-        //if (!jumpArrow)
-        //{
-            rb.AddForce(Vector2.up * JumpPower);
-        //}
+        rb.AddForce(Vector2.up * JumpPower);
     }
 
-    //攻撃準備
     private void AttackPreparation()
     {
-        ////アニメーションの進行状況をチェック
-        //if (//animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack") &&
-        //        //animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
-        //{
-        //    //animator.SetBool("Attack", false);
-        //}
+        // アニメーションや攻撃チャージ等を入れる場所（今は未使用）
     }
 
-    // 攻撃処理（敵ヒットと、Tile破壊を行う）
-    private void Attack()
+    /// <summary>
+    /// 攻撃処理：敵ヒット判定（既存）＋Tile破壊（範囲）を行い、壊したタイル数を返す
+    /// </summary>
+    private int Attack()
     {
-        // 1) 敵への当たり判定（既存）
+        // 敵への当たり判定
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, attaackRadius, enemyLayer);
         foreach (var e in hitEnemies)
         {
-            // 敵にダメージを与える処理をここに
             Debug.Log("Hit enemy: " + e.name);
+            // 敵にダメージを与える処理をここへ
         }
 
-        // 2) タイル（ステージ）への当たり判定 -> Tile を壊す
-        // AttackPoint を前方に置いている前提。必要なら transform.localScale.x を使って前方へオフセットする
+        // タイル破壊（AttackPoint を中心に brush 半径）
         if (tileDigging != null)
         {
-            // ターゲット位置を AttackPoint.position にする（AttackPoint をプレイヤー正面にセットする）
             Vector3 attackPos = AttackPoint.position;
-
-            tileDigging.DigArea(attackPos, 1 * (int)digRange);
+            int removed = tileDigging.DigArea(attackPos, Mathf.Max(0, (int)digRange));
+            return removed;
         }
+        return 0;
     }
 
+    // 掘削アニメーションのコルーチン（短時間 isDig=true にする）
+    IEnumerator DoDigAnimCoroutine(float duration)
+    {
+        animator.SetBool("isDig", true);
+        yield return new WaitForSeconds(duration);
+        animator.SetBool("isDig", false);
+        digAnimCoroutine = null;
+    }
 
-    //防御
     private void Guard()
     {
-        if (Input.GetKey(KeyCode.V))
-        {
-            this.tag = "Guard";
-        }
-        else
-        {
-            this.tag = "Player";
-        }
+        if (Input.GetKey(KeyCode.V)) this.tag = "Guard";
+        else this.tag = "Player";
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(AttackPoint.position, attaackRadius);
+        if (AttackPoint != null) Gizmos.DrawWireSphere(AttackPoint.position, attaackRadius);
     }
 
-    //地面との接触
     private bool GroundCheck()
     {
         Vector3 startposition = transform.position;
         Vector3 endposition = transform.position - transform.up * 4.0f;
-
         Debug.DrawLine(startposition, endposition, Color.red);
-
         return Physics2D.Linecast(startposition, endposition, StageLayer);
     }
 
-    //速度の取得
     public float GetSpeed()
     {
         return RunSpeed;
     }
 
-    //
     void PlaceBomb()
     {
-        Vector3 pos = transform.position; // または AttackPoint.position やワールドスナップ
+        Vector3 pos = transform.position;
         GameObject b = Instantiate(bombPrefab, pos, Quaternion.identity);
         b.GetComponent<BombController>().Ignite();
         maxBombs--;
@@ -279,8 +232,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
         {
-            //animator.SetBool("Jump", false);
+            // 着地時処理（必要なら）
         }
     }
 }
-
