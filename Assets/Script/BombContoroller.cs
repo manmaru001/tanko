@@ -4,45 +4,44 @@ using UnityEngine;
 /// <summary>
 /// BombController
 /// - TileDigging を使って地形を範囲破壊するボム用スクリプト
-/// - 爆発範囲内の Jewelry をすべて削除する処理を追加
+/// - 爆発範囲内の Jewelry をすべて処理（ExplodeJewelry を呼ぶ）
 /// - 爆発範囲内に Player がいるかを判定するメソッドを追加
 /// </summary>
 public class BombController : MonoBehaviour
 {
     [Header("Fuse / Explosion")]
     public float fuseTime = 3.0f;            // 点火から爆発までの時間（秒）
-    const int blastRadiusTiles = 6;         // タイル単位の爆風半径
+    const int blastRadiusTiles = 6;         // 基準となるタイル半径（定数）
     public bool explodeOnStart = false;      // スポーン時に自動で点火するか
-    public float explodeRange = 1.0f;        // 爆風範囲（追加拡張用）
+    [Tooltip("blastRadiusTiles に掛ける倍率。例: 1.0 = blastRadiusTiles、2.0 = 2倍")]
+    public float explodeRange = 1.0f;        // 爆風範囲の倍率（タイル単位の倍率）
 
     [Header("References")]
-    public TileDigging tileDigging;          // TileDigging を Inspector でセット（未設定なら自動検索）
+    public TileDigging tileDigging;          // TileDigging（Inspector または自動取得）
     public GameObject explosionEffect;       // 爆発パーティクル（任意）
-    public AudioClip explosionSound;         // 爆発音（任意）
+    public AudioClip explosionSound;         // 爆発音（任意、SoundManager が無いときのフォールバック）
     public LayerMask enemyLayer;             // 敵用（任意）
     public float enemyDamage = 10f;          // 敵へのダメージ（任意）
     public LayerMask rigidbodyLayer;         // 物理オブジェクトへ力を与えるレイヤー（任意）
-    public float explosionForce = 300f;      // 一番近い位置での押し出し力（任意）
-    public SoundManager SoundManager;
+    public float explosionForce = 300f;      // 爆風の基本力（任意）
+    public SoundManager SoundManager;        // （シーン上の SoundManager コンポーネントを参照）
 
     [Header("Destroy / Player / Jewelry Layers")]
     [Tooltip("爆発で消したい Jewelry を置いているレイヤーをセット")]
-    public LayerMask jewelryLayer;           // Jewelry を置いているレイヤー（Inspector で設定）
+    public LayerMask jewelryLayer;           // Jewelry 用レイヤー
     [Tooltip("Player を検出するためのレイヤー（Player が属するレイヤーをセット）")]
     public LayerMask playerLayer;            // Player のレイヤー（検出用）
 
     [Header("Behavior")]
-    public bool usePooling = false;          // プール利用時は true にして呼び出し元で戻す
-    public float destroyDelay = 0.1f;        // 爆発後にオブジェクトを消す/戻すまでの猶予
+    public bool usePooling = false;          // プール利用時は true（ここでは単純 Destroy）
+    public float destroyDelay = 0.1f;        // 爆発後にオブジェクトを消すまでの猶予
 
     // 内部
     bool isArmed = false;
 
-
-
     void Start()
     {
-        // 既にInspectorでセットされていなければ、シーン中の SoundManager を探してセットする
+        // Inspector で未設定ならシーンから自動取得（プレハブに保持したくない場合に有用）
         if (SoundManager == null)
         {
             SoundManager = FindFirstObjectByType<SoundManager>();
@@ -50,8 +49,11 @@ public class BombController : MonoBehaviour
                 Debug.LogWarning("BombController: SoundManager が見つかりません（シーンに存在しますか？）");
         }
 
-        // TileDigging のフォールバックなど既存処理...
-        if (tileDigging == null) tileDigging = FindFirstObjectByType<TileDigging>();
+        if (tileDigging == null)
+        {
+            tileDigging = FindFirstObjectByType<TileDigging>();
+        }
+
         if (explodeOnStart) Ignite();
     }
 
@@ -74,57 +76,64 @@ public class BombController : MonoBehaviour
 
     IEnumerator FuseCoroutine()
     {
-        // 点火エフェクトや点滅をここで入れられる
         yield return new WaitForSeconds(fuseTime);
         yield return ExplodeAndCleanup();
     }
 
     IEnumerator ExplodeAndCleanup()
     {
-        // 1) エフェクト・音
-        if (explosionEffect != null)
-        {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
-        }
-        if (SoundManager != null && explosionSound != null)
+        // 1) エフェクト
+        if (explosionEffect != null) Instantiate(explosionEffect, transform.position, Quaternion.identity);
+
+        // サウンド：優先して SoundManager 経由で鳴らす（プロジェクトで PlaySFX("Sound_Bomb") を登録している前提）
+        if (SoundManager != null)
         {
             SoundManager.PlaySFX("Sound_Bomb");
         }
+        else if (explosionSound != null)
+        {
+            // フォールバック：AudioSource.PlayClipAtPoint（簡易再生）
+            AudioSource.PlayClipAtPoint(explosionSound, transform.position, 1f);
+        }
 
-        // ワールド半径を先に計算しておく
-        float worldRadius = ComputeWorldRadius();
+        // タイル半径を計算（切り上げで整数化）
+        int tileRadius = Mathf.Max(0, Mathf.CeilToInt(blastRadiusTiles * explodeRange));
 
-        // 2) TileDigging を使ってタイルを破壊
+        // ワールド半径を計算（セルサイズ × タイル数）
+        float worldRadius = ComputeWorldRadiusForTileRadius(tileRadius);
+
+        // 2) TileDigging を使ってタイルを破壊（タイル単位の半径を渡す）
         if (tileDigging != null && tileDigging.groundTilemap != null)
         {
-            // blastRadiusTiles をそのまま使用（必要なら換算ロジックを変えてください）
-            tileDigging.DigArea(transform.position, blastRadiusTiles * (int)explodeRange);
+            tileDigging.DigArea(transform.position, tileRadius);
         }
         else
         {
-
-
             Debug.LogWarning("BombController: TileDigging がアサインされていません。タイル破壊は行われません。");
         }
 
-        // 2.5) --- Jewelry を爆発範囲内からすべて削除する ---
+        // 2.5) Jewelry を爆発範囲内から処理（ExplodeJewelry を呼ぶ）
         if (jewelryLayer != 0)
         {
-            // 指定レイヤー内のすべての Collider を取得して GameObject を削除
             Collider2D[] jewels = Physics2D.OverlapCircleAll(transform.position, worldRadius, jewelryLayer);
             foreach (var j in jewels)
             {
-                if (j != null && j.gameObject != null)
+                if (j == null || j.gameObject == null) continue;
+
+                var jc = j.GetComponent<JewelryController>();
+                if (jc != null)
                 {
-                    // プールを使っている場合は破壊ではなく非アクティブ化する等の処理が必要
-                    // ここでは単純に Destroy。ただしプロジェクトにプールがある場合は置き換えてください。
+                    jc.ExplodeJewelry();
+                }
+                else
+                {
+                    // JewelryController が無ければフォールバックで削除
                     Destroy(j.gameObject);
                 }
             }
         }
 
-        // 3) （省略している）敵へのダメージ処理など（必要なら有効化）
-        // ... (省略)
+        // 3) 敵ダメージ等（必要なら実装）
 
         // 4) 物理オブジェクトへの爆風力（減衰あり）
         if (rigidbodyLayer != 0 && explosionForce > 0f)
@@ -133,26 +142,22 @@ public class BombController : MonoBehaviour
             foreach (var c in cols)
             {
                 var rb = c.attachedRigidbody;
-                if (rb != null)
-                {
-                    Vector2 dir = (rb.position - (Vector2)transform.position);
-                    float dist = dir.magnitude;
-                    if (dist <= 0.001f) dist = 0.001f;
-                    float atten = Mathf.Clamp01(1f - (dist / worldRadius)); // 近いほど強く
-                    rb.AddForce(dir.normalized * explosionForce * atten);
-                }
+                if (rb == null) continue;
+                Vector2 dir = (rb.position - (Vector2)transform.position);
+                float dist = Mathf.Max(0.001f, dir.magnitude);
+                float atten = Mathf.Clamp01(1f - (dist / worldRadius));
+                rb.AddForce(dir.normalized * explosionForce * atten);
             }
         }
 
-        // 5) 爆発範囲内にプレイヤーがいるかをチェックして何か行いたい場合はここで使える
-        bool playerInRange = IsPlayerInRange(); // true/false が得られる（Inspector で playerLayer を設定）
+        // 5) プレイヤー検出（必要ならここで処理）
+        bool playerInRange = IsPlayerInRange(tileRadius);
         if (playerInRange)
         {
-            // 例: デバッグログ。実際の処理はここに書く（ダメージ、ノックバック、ゲームオーバー判定など）
             Debug.Log("BombController: Player is inside explosion radius!");
         }
 
-        // 6) 後処理（爆弾を破壊 or 非活性化）
+        // 6) 後処理（爆弾の削除 / プール戻し）
         if (usePooling)
         {
             gameObject.SetActive(false);
@@ -165,45 +170,46 @@ public class BombController : MonoBehaviour
     }
 
     /// <summary>
-    /// blastRadiusTiles（タイル数）を基にワールド座標の半径を近似計算して返す
+    /// 指定のタイル半径（整数）を元にワールド半径を返す。
     /// </summary>
-    float ComputeWorldRadius()
+    float ComputeWorldRadiusForTileRadius(int tileRadius)
     {
         if (tileDigging != null && tileDigging.groundTilemap != null)
         {
             Vector3 cellSize = tileDigging.groundTilemap.cellSize;
             float cell = Mathf.Max(cellSize.x, cellSize.y);
-            // blastRadiusTiles をそのままセルサイズの倍率として使う
-            return blastRadiusTiles * cell;
+            return tileRadius * cell;
         }
-        return blastRadiusTiles * 1f;
+        // フォールバック（tileRadius が 0 の場合は 0）
+        return tileRadius * 1f;
     }
 
     /// <summary>
-    /// 爆発範囲内に Player がいたら true を返す（playerLayer を Inspector で設定）
+    /// blastRadiusTiles と explodeRange を掛け合わせたタイル半径を用いてプレイヤーが範囲内か判定。
+    /// （必要なときは tileRadius を受け取るオーバーロードで使う）
     /// </summary>
     public bool IsPlayerInRange()
     {
-        float worldRadius = ComputeWorldRadius();
-        // OverlapCircle を使って playerLayer のいずれかの Collider が存在すれば true
-        Collider2D hit = Physics2D.OverlapCircle(transform.position, worldRadius, playerLayer);
-        return hit != null;
+        int tileRadius = Mathf.Max(0, Mathf.CeilToInt(blastRadiusTiles * explodeRange));
+        return IsPlayerInRange(tileRadius);
     }
 
     /// <summary>
-    /// 爆発範囲内の Player をすべて返す（必要なら利用する）
+    /// タイル半径を指定して判定するオーバーロード
     /// </summary>
-    public Collider2D[] GetPlayersInRange()
+    public bool IsPlayerInRange(int tileRadius)
     {
-        float worldRadius = ComputeWorldRadius();
-        return Physics2D.OverlapCircleAll(transform.position, worldRadius, playerLayer);
+        float worldRadius = ComputeWorldRadiusForTileRadius(tileRadius);
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, worldRadius, playerLayer);
+        return hit != null;
     }
 
     // Sceneビューで爆風範囲を可視化
     void OnDrawGizmosSelected()
     {
+        int tileRadius = Mathf.Max(0, Mathf.CeilToInt(blastRadiusTiles * explodeRange));
+        float worldR = (tileDigging != null && tileDigging.groundTilemap != null) ? ComputeWorldRadiusForTileRadius(tileRadius) : tileRadius;
         Gizmos.color = new Color(1f, 0.5f, 0.1f, 0.4f);
-        float worldR = (tileDigging != null && tileDigging.groundTilemap != null) ? ComputeWorldRadius() : blastRadiusTiles;
         Gizmos.DrawWireSphere(transform.position, worldR);
     }
 }

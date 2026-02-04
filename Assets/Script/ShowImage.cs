@@ -93,7 +93,7 @@ public class ShowImage : MonoBehaviour
 
         if (m_scoreManager.m_score > 0)
         {
-            m_playerController.attaackRadius += 2;
+            m_playerController.digRange += 1;
             m_scoreManager.m_score--;
         }
     }

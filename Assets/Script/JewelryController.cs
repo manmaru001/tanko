@@ -19,6 +19,13 @@ public class JewelryController : MonoBehaviour
         
     }
 
+    //爆発範囲内にあったらオブジェクトを破壊&スコア増加
+    public void ExplodeJewelry()
+    {
+        Destroy(gameObject);
+        m_scoreManager.m_score++;
+    }
+
     //プレイヤータグと衝突したらオブジェクトを破壊
     private void OnTriggerEnter2D(Collider2D collision)
     {
