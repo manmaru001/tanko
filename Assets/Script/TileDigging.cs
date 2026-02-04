@@ -8,41 +8,40 @@ public class TileDigging : MonoBehaviour
     public float digRange = 1.0f;       // 掘る距離（プレイヤー基準）
     public Vector3 digOffset = new Vector3(0f, -1f, 0f); // 掘る方向オフセット例
 
-    // プレイヤーが掘ると呼ぶ（例：ボタン押しで）
-    public void DigAtPlayer(Vector3 playerWorldPos, Vector2 direction)
-    {
-        // 掘る対象のワールド座標（方向 + 範囲 を使って決める）
-        Vector3 targetWorld = playerWorldPos + (Vector3)direction.normalized * digRange + digOffset;
+    // サウンド（使いたければここに PlaySFX 呼び出しを入れてもよい）
+    public GameObject SoundManager;
 
-        // ワールド座標 → セル座標
+    /// <summary>
+    /// プレイヤーの位置と方向から単セル掘る。掘れたら true を返す。
+    /// </summary>
+    public bool DigAtPlayer(Vector3 playerWorldPos, Vector2 direction)
+    {
+        Vector3 targetWorld = playerWorldPos + (Vector3)direction.normalized * digRange + digOffset;
         Vector3Int cell = groundTilemap.WorldToCell(targetWorld);
 
-        // 現在のタイルを取得
         TileBase tile = groundTilemap.GetTile(cell);
         if (tile != null)
         {
-            // タイル削除
             groundTilemap.SetTile(cell, null);
-
-            // 周囲のルールタイル等をリフレッシュしたい場合
             groundTilemap.RefreshTile(cell);
 
-            // パーティクルをセルの中心で出す（任意）
             if (digParticles != null)
             {
                 Vector3 worldCenter = groundTilemap.GetCellCenterWorld(cell);
                 Instantiate(digParticles, worldCenter, Quaternion.identity);
             }
 
-            // アイテムドロップや音の再生などをここに
-            // DropItem(cell);
-            // AudioSource.PlayClipAtPoint(digSound, worldCenter);
+            return true;
         }
+        return false;
     }
 
-    // 範囲掘削（ツルハシのサイズが大きいとき）
-    public void DigArea(Vector3 worldCenter, int brushRadius)
+    /// <summary>
+    /// 範囲掘削（brushRadius の正方形領域）。壊したタイル数を返す。
+    /// </summary>
+    public int DigArea(Vector3 worldCenter, int brushRadius)
     {
+        int removed = 0;
         Vector3Int centerCell = groundTilemap.WorldToCell(worldCenter);
         for (int x = -brushRadius; x <= brushRadius; x++)
         {
@@ -53,8 +52,17 @@ public class TileDigging : MonoBehaviour
                 {
                     groundTilemap.SetTile(c, null);
                     groundTilemap.RefreshTile(c);
+
+                    if (digParticles != null)
+                    {
+                        Vector3 worldCenterTile = groundTilemap.GetCellCenterWorld(c);
+                        Instantiate(digParticles, worldCenterTile, Quaternion.identity);
+                    }
+
+                    removed++;
                 }
             }
         }
+        return removed;
     }
 }

@@ -11,9 +11,9 @@ public class BombController : MonoBehaviour
 {
     [Header("Fuse / Explosion")]
     public float fuseTime = 3.0f;            // 点火から爆発までの時間（秒）
-    public const int blastRadiusTiles = 8;         // タイル単位の爆風半径
+    public const int blastRadiusTiles = 6;         // タイル単位の爆風半径
     public bool explodeOnStart = false;      // スポーン時に自動で点火するか
-    public float explodeRange = 1.0f;        // 爆風範囲（追加拡張用）
+    public float explodeRange = 3.0f;        // 爆風範囲（追加拡張用）
 
     [Header("References")]
     public TileDigging tileDigging;          // TileDigging を Inspector でセット（未設定なら自動検索）
@@ -23,6 +23,7 @@ public class BombController : MonoBehaviour
     public float enemyDamage = 10f;          // 敵へのダメージ（任意）
     public LayerMask rigidbodyLayer;         // 物理オブジェクトへ力を与えるレイヤー（任意）
     public float explosionForce = 300f;      // 一番近い位置での押し出し力（任意）
+    public SoundManager SoundManager;
 
     [Header("Destroy / Player / Jewelry Layers")]
     [Tooltip("爆発で消したい Jewelry を置いているレイヤーをセット")]
@@ -37,18 +38,21 @@ public class BombController : MonoBehaviour
     // 内部
     bool isArmed = false;
 
+
+
     void Start()
     {
-        // TileDigging がセットされていなければシーン中から探す（簡易フォールバック）
-        if (tileDigging == null)
+        // 既にInspectorでセットされていなければ、シーン中の SoundManager を探してセットする
+        if (SoundManager == null)
         {
-            tileDigging = FindObjectOfType<TileDigging>();
+            SoundManager = FindObjectOfType<SoundManager>();
+            if (SoundManager == null)
+                Debug.LogWarning("BombController: SoundManager が見つかりません（シーンに存在しますか？）");
         }
 
-        if (explodeOnStart)
-        {
-            Ignite();
-        }
+        // TileDigging のフォールバックなど既存処理...
+        if (tileDigging == null) tileDigging = FindObjectOfType<TileDigging>();
+        if (explodeOnStart) Ignite();
     }
 
     /// <summary> 外部から点火する用（プレイヤーが置いたときなど） </summary>
@@ -82,9 +86,9 @@ public class BombController : MonoBehaviour
         {
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
         }
-        if (explosionSound != null)
+        if (SoundManager != null && explosionSound != null)
         {
-            AudioSource.PlayClipAtPoint(explosionSound, transform.position);
+            SoundManager.PlaySFX("Sound_Bomb");
         }
 
         // ワールド半径を先に計算しておく

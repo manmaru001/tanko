@@ -104,7 +104,7 @@ MonoBehaviour:
   explodeRange: 1
   tileDigging: {fileID: 0}
   explosionEffect: {fileID: 0}
-  explosionSound: {fileID: 0}
+  explosionSound: {fileID: 8300000, guid: 7ccc5534cea36ae4fa627a8e1d1f9083, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
