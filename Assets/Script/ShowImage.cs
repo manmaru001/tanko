@@ -23,12 +23,11 @@ public class ShowImage : MonoBehaviour
         // 画像を非表示にする
         a.SetActive(false);
 
-        m_fade.FadeIn(2.0f);
-
         miningEnhancement.SetActive(false);
         bomEnhancement.SetActive(false);
         speedEnhancement.SetActive(false);
 
+        m_fade.FadeIn(2.0f);
     }
 
     // Update is called once per frame
@@ -39,13 +38,24 @@ public class ShowImage : MonoBehaviour
         {
             m_fade.FadeOut(2.0f);
 
-            a.SetActive(true);
-            miningEnhancement.SetActive(true);
-            bomEnhancement.SetActive(true);
-            speedEnhancement.SetActive(true);
-
             hasFadedOut = true;
+
+            // 時間差処理をスタートさせる
+            StartCoroutine(WaitAndShow());
         }
+    }
+
+    // 待機時間を作るための処理
+    private IEnumerator WaitAndShow()
+    {
+        // 2秒間待機
+        yield return new WaitForSeconds(2.0f);
+
+
+        a.SetActive(true);
+        miningEnhancement.SetActive(true);
+        bomEnhancement.SetActive(true);
+        speedEnhancement.SetActive(true);
     }
 
     public void OnRetryButton()
@@ -53,19 +63,21 @@ public class ShowImage : MonoBehaviour
         // フラグを元に戻す
         ShowCountdown.m_cuntZero = false;
 
-        hasFadedOut = false;
-
         // タイマーをリセットして、すぐにスタートさせる
         m_gameTimer.OnReset();
         m_gameTimer.OnStart();
 
         // 画像を非表示にする
         a.SetActive(false);
-        m_fade.FadeIn(2.0f);
 
         miningEnhancement.SetActive(false);
         bomEnhancement.SetActive(false);
         speedEnhancement.SetActive(false);
+
+        hasFadedOut = false;
+
+        m_fade.FadeIn(2.0f);
+
     }
 
     public void OnMiningEnhancementBottom()
