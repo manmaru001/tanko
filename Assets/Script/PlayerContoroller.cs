@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private float attackTimer = 0f;
 
     // 掘削範囲（変更可）
-    public float digRange = 1.0f;
+    public float digRange = 2.0f;
 
     // 掘削アニメーション時間（isDig を true にしておく時間）
     [Tooltip("掘削アニメーションを isDig=true にしておく秒数")]
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 掘削 / 攻撃：マウス左ボタンをホールドで連続掘削（attackCooldown で制御）
-        if (Input.GetMouseButton(0) && attackTimer <= 0f)
+        if (Input.GetMouseButton(0))
         {
             attackTimer = attackCooldown;
 
