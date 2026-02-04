@@ -45,13 +45,13 @@ public class BombController : MonoBehaviour
         // 既にInspectorでセットされていなければ、シーン中の SoundManager を探してセットする
         if (SoundManager == null)
         {
-            SoundManager = FindObjectOfType<SoundManager>();
+            SoundManager = FindFirstObjectByType<SoundManager>();
             if (SoundManager == null)
                 Debug.LogWarning("BombController: SoundManager が見つかりません（シーンに存在しますか？）");
         }
 
         // TileDigging のフォールバックなど既存処理...
-        if (tileDigging == null) tileDigging = FindObjectOfType<TileDigging>();
+        if (tileDigging == null) tileDigging = FindFirstObjectByType<TileDigging>();
         if (explodeOnStart) Ignite();
     }
 
