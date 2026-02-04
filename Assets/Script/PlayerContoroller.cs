@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     //物理&アニメーター
     private Rigidbody2D rb;
-    //private Animator //animator;
+    private Animator animator;
 
     //攻撃当たり判定(位置)
     public Transform AttackPoint;
@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     private float RunSpeed = 12.0f;
     private float JumpPower = 300.0f;
     private float PushSpeed = 3.0f;
+    //移動速度補正
+    public float speedCorrection = 1.0f;
 
     public enum MOVE_TYPE
     {
@@ -58,7 +60,7 @@ public class PlayerController : MonoBehaviour
     {
 
         rb = GetComponent<Rigidbody2D>();
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -79,9 +81,13 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-                //animator.SetBool("Jump", true);
+                animator.SetBool("isJump", true);
                 Jump();
             }
+        }
+        else
+        {
+            animator.SetBool("isJump", false);
         }
 
         //攻撃（マウス左クリック）
@@ -91,6 +97,15 @@ public class PlayerController : MonoBehaviour
             attackTimer = attackCooldown;
             tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
             SoundManager.GetComponent<SoundManager>().PlaySFX("Sound_Dig");
+
+            if (!animator.GetBool("isDig"))
+            {
+                animator.SetBool("isDig", true);
+            }
+        }
+        else 
+        {
+            animator.SetBool("isDig", false);
         }
         // 攻撃（Spaceキー）
         //if (Input.GetKey(KeyCode.Space)/* && attackTimer <= 0f*/)
@@ -127,19 +142,19 @@ public class PlayerController : MonoBehaviour
         {
             // キー入力なしの場合は停止
             move = MOVE_TYPE.STOP;
-            //animator.SetBool("Dash", false);
+            animator.SetBool("isWalk", false);
         }
         else if (horizonkey > 0)
         {
             // キー入力が正の場合は右へ移動する
             move = MOVE_TYPE.RIGHT;
-            //animator.SetBool("Dash", true);
+            animator.SetBool("isWalk", true);
         }
         else if (horizonkey < 0)
         {
             // キー入力が負の場合は左へ移動する
             move = MOVE_TYPE.LEFT;
-            //animator.SetBool("Dash", true);
+            animator.SetBool("isWalk", true);
         }
     }
 
@@ -167,7 +182,7 @@ public class PlayerController : MonoBehaviour
         }
         transform.localScale = scale; // scaleを代入
                                       // rigidbody2Dのvelocity(速度)へ取得したRunSpeedを入れる。y方向は動かないのでそのままにする
-        rb.velocity = new Vector2(RunSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(RunSpeed * speedCorrection, rb.velocity.y);
     }
 
     //ジャンプ
