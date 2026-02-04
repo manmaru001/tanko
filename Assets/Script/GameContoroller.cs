@@ -14,6 +14,7 @@ public class GameContoroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //スコアが10を超えたらシーンをチェンジ
         if(ScoreManagerSingleton.instance.m_score >= 10)
         {
             ChangeScene();
@@ -24,6 +25,7 @@ public class GameContoroller : MonoBehaviour
 
     private void ChangeScene()
     {
+        //リザルトシーンの読み込み
         SceneManager.LoadScene("ResultScene");
     }
 

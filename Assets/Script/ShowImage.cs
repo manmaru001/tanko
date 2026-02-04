@@ -105,6 +105,7 @@ public class ShowImage : MonoBehaviour
 
     }
 
+
     public void OnBomEnhancementBottom()
     {
         //if (m_scoreManager.m_score > 0)

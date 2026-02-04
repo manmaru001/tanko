@@ -18,7 +18,7 @@ public class ScoreManagerSingleton : MonoBehaviour
         }
         else
         {
-            //Šù‚É‘¶İ‚µ‚½‚ç©M‚ğíœ
+            //Šù‚É‘¶İ‚µ‚½‚ç©g‚ğíœ
             Destroy(gameObject);
         }
 
