@@ -46,7 +46,9 @@ public class PlayerController : MonoBehaviour
 
 
     //ボム設置
-    public GameObject bombPrefab;
+    public GameObject bombPrefab;//ボムプレハブ
+    public int maxBombs = 3;//設置可能ボム数
+
 
     // Start is called before the first frame update
     void Start()
@@ -95,7 +97,7 @@ public class PlayerController : MonoBehaviour
         //}
 
         //ボム設置（Bキー）
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && maxBombs > 0)
         {
             PlaceBomb();
         }
@@ -251,6 +253,7 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = transform.position; // または AttackPoint.position やワールドスナップ
         GameObject b = Instantiate(bombPrefab, pos, Quaternion.identity);
         b.GetComponent<BombController>().Ignite();
+        maxBombs--;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
