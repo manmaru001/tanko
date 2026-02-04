@@ -7,20 +7,45 @@ public class ShowImage : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private GameObject a;//GameObject型の変数aを宣言　好きなゲームオブジェクトをアタッチ
 
+    [SerializeField] private GameObject miningEnhancement; // 採掘強化ボタン
+    [SerializeField] private GameObject bomEnhancement;    // 爆弾強化ボタン
+    [SerializeField] private GameObject speedEnhancement;  // スピード強化ボタン
+
     public GameTimer m_gameTimer;
+    public PlayerController m_playerController;
+    public BombController m_bombController;
+    [SerializeField] private Fade m_fade;
+
+    private bool hasFadedOut = false;
 
     void Start()
     {
         // 画像を非表示にする
         a.SetActive(false);
+
+        m_fade.FadeIn(2.0f);
+
+        miningEnhancement.SetActive(false);
+        bomEnhancement.SetActive(false);
+        speedEnhancement.SetActive(false);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         // もしカウントが0となった時、画像を表示させる
-        if (ShowCountdown.m_cuntZero == true)
-        a.SetActive(true);
+        if (ShowCountdown.m_cuntZero == true && !hasFadedOut)
+        {
+            m_fade.FadeOut(2.0f);
+
+            a.SetActive(true);
+            miningEnhancement.SetActive(true);
+            bomEnhancement.SetActive(true);
+            speedEnhancement.SetActive(true);
+
+            hasFadedOut = true;
+        }
     }
 
     public void OnRetryButton()
@@ -28,11 +53,33 @@ public class ShowImage : MonoBehaviour
         // フラグを元に戻す
         ShowCountdown.m_cuntZero = false;
 
+        hasFadedOut = false;
+
         // タイマーをリセットして、すぐにスタートさせる
         m_gameTimer.OnReset();
         m_gameTimer.OnStart();
 
         // 画像を非表示にする
         a.SetActive(false);
+        m_fade.FadeIn(2.0f);
+
+        miningEnhancement.SetActive(false);
+        bomEnhancement.SetActive(false);
+        speedEnhancement.SetActive(false);
+    }
+
+    public void OnMiningEnhancementBottom()
+    {
+        m_playerController.attaackRadius++;
+    }
+
+    public void OnBomEnhancementBottom()
+    {
+        m_bombController.blastRadiusTiles++;
+    }
+
+    public void OnSpeedEnhancementBottom()
+    {
+        
     }
 }
