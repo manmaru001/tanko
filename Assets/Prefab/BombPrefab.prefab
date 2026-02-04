@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fuseTime: 1.2
-  blastRadiusTiles: 2
   explodeOnStart: 0
+  explodeRange: 1
   tileDigging: {fileID: 0}
   explosionEffect: {fileID: 0}
   explosionSound: {fileID: 0}
@@ -113,6 +113,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   explosionForce: 300
+  jewelryLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
   usePooling: 0
   destroyDelay: 0.1
 --- !u!58 &1960390990527495494
