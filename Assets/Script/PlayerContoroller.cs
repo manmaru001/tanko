@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     //攻撃当たり判定(位置)
     public Transform AttackPoint;
 
+    //サウンド
+    public GameObject SoundManager;
+
     //当たり判定(レイヤー)
     public LayerMask StageLayer;
     public LayerMask enemyLayer;
@@ -87,6 +90,7 @@ public class PlayerController : MonoBehaviour
             Attack();
             attackTimer = attackCooldown;
             tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
+            SoundManager.GetComponent<SoundManager>().PlaySFX("Sound_Dig");
         }
         // 攻撃（Spaceキー）
         //if (Input.GetKey(KeyCode.Space)/* && attackTimer <= 0f*/)
