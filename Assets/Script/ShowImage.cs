@@ -16,13 +16,13 @@ public class ShowImage : MonoBehaviour
     public BombController m_bombController;
     [SerializeField] private Fade m_fade;
 
-    ScoreManager m_scoreManager;
+    //ScoreManager m_scoreManager;
 
     private bool hasFadedOut = false;
 
     void Start()
     {
-        m_scoreManager = FindFirstObjectByType<ScoreManager>();
+        //m_scoreManager = FindFirstObjectByType<ScoreManager>();
 
         // ‰æ‘œ‚ð”ñ•\Ž¦‚É‚·‚é
         a.SetActive(false);
@@ -91,28 +91,48 @@ public class ShowImage : MonoBehaviour
     public void OnMiningEnhancementBottom()
     {
 
-        if (m_scoreManager.m_score > 0)
+        //if (m_scoreManager.m_score > 0)
+        //{
+        //    m_playerController.digRange += 1;
+        //    m_scoreManager.m_score--;
+        //}
+
+        if(ScoreManagerSingleton.instance.m_score > 0)
         {
             m_playerController.digRange += 1;
-            m_scoreManager.m_score--;
+            ScoreManagerSingleton.instance.m_score--;
         }
+
     }
 
-        public void OnBomEnhancementBottom()
+    public void OnBomEnhancementBottom()
     {
-        if (m_scoreManager.m_score > 0)
+        //if (m_scoreManager.m_score > 0)
+        //{
+        //    m_bombController.explodeRange += 2.0f;
+        //    m_scoreManager.m_score--;
+        //}
+
+        if(ScoreManagerSingleton.instance.m_score > 0)
         {
             m_bombController.explodeRange += 2.0f;
-            m_scoreManager.m_score--;
+            ScoreManagerSingleton.instance.m_score--;
         }
     }
 
     public void OnSpeedEnhancementBottom()
     {
-        if (m_scoreManager.m_score > 0)
+        //if (m_scoreManager.m_score > 0)
+        //{
+        //    m_playerController.speedCorrection += 1.0f;
+        //    m_scoreManager.m_score--;
+        //}
+
+        if(ScoreManagerSingleton.instance.m_score > 0)
         {
             m_playerController.speedCorrection += 1.0f;
-            m_scoreManager.m_score--;
+            ScoreManagerSingleton.instance.m_score--;
         }
+
     }
 }

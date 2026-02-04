@@ -23,6 +23,6 @@ public class ScoreManager : MonoBehaviour
     void Update()
     {
         // テキストとして出力
-        m_txt.text = string.Format(m_strFormat, m_score);
+        m_txt.text = string.Format(m_strFormat, ScoreManagerSingleton.instance.m_score);
     }
 }

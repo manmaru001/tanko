@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameContoroller : MonoBehaviour
 {
@@ -13,6 +14,18 @@ public class GameContoroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(ScoreManagerSingleton.instance.m_score >= 10)
+        {
+            ChangeScene();
+        }
+
     }
+
+
+    private void ChangeScene()
+    {
+        SceneManager.LoadScene("ResultScene");
+    }
+
+
 }

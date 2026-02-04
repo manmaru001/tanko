@@ -6,11 +6,11 @@ using UnityEngine;
 public class JewelryController : MonoBehaviour
 {
 
-    ScoreManager m_scoreManager;
+    //ScoreManager m_scoreManager;
     // Start is called before the first frame update
     void Start()
     {
-        m_scoreManager = FindFirstObjectByType<ScoreManager>();
+        //m_scoreManager = FindFirstObjectByType<ScoreManager>();
     }
 
     // Update is called once per frame
@@ -23,7 +23,9 @@ public class JewelryController : MonoBehaviour
     public void ExplodeJewelry()
     {
         Destroy(gameObject);
-        m_scoreManager.m_score++;
+        //m_scoreManager.m_score++;
+
+        ScoreManagerSingleton.instance.m_score++;
     }
 
     //プレイヤータグと衝突したらオブジェクトを破壊
@@ -32,7 +34,9 @@ public class JewelryController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Destroy(gameObject);
-            m_scoreManager.m_score++;
+            //m_scoreManager.m_score++;
+
+            ScoreManagerSingleton.instance.m_score++;
         }
     }
 
