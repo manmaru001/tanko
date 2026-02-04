@@ -16,10 +16,14 @@ public class ShowImage : MonoBehaviour
     public BombController m_bombController;
     [SerializeField] private Fade m_fade;
 
+    ScoreManager m_scoreManager;
+
     private bool hasFadedOut = false;
 
     void Start()
     {
+        m_scoreManager = FindFirstObjectByType<ScoreManager>();
+
         // ‰æ‘œ‚ð”ñ•\Ž¦‚É‚·‚é
         a.SetActive(false);
 
@@ -83,6 +87,7 @@ public class ShowImage : MonoBehaviour
     public void OnMiningEnhancementBottom()
     {
         m_playerController.attaackRadius++;
+        m_scoreManager.m_score--;
     }
 
     public void OnBomEnhancementBottom()
