@@ -31,6 +31,10 @@ public class ShowImage : MonoBehaviour
         bomEnhancement.SetActive(false);
         speedEnhancement.SetActive(false);
 
+        m_playerController.attaackRadius = 1;
+        m_bombController.explodeRange = 1;
+        m_playerController.speedCorrection = 1.0f;
+
         m_fade.FadeIn(2.0f);
     }
 
@@ -89,7 +93,7 @@ public class ShowImage : MonoBehaviour
 
         if (m_scoreManager.m_score > 0)
         {
-            m_playerController.attaackRadius++;
+            m_playerController.attaackRadius += 2;
             m_scoreManager.m_score--;
         }
     }
@@ -98,7 +102,7 @@ public class ShowImage : MonoBehaviour
     {
         if (m_scoreManager.m_score > 0)
         {
-            m_bombController.explodeRange++;
+            m_bombController.explodeRange += 2.0f;
             m_scoreManager.m_score--;
         }
     }
@@ -107,6 +111,7 @@ public class ShowImage : MonoBehaviour
     {
         if (m_scoreManager.m_score > 0)
         {
+            m_playerController.speedCorrection += 1.0f;
             m_scoreManager.m_score--;
         }
     }

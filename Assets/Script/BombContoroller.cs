@@ -11,9 +11,9 @@ public class BombController : MonoBehaviour
 {
     [Header("Fuse / Explosion")]
     public float fuseTime = 3.0f;            // 点火から爆発までの時間（秒）
-    public const int blastRadiusTiles = 6;         // タイル単位の爆風半径
+    const int blastRadiusTiles = 6;         // タイル単位の爆風半径
     public bool explodeOnStart = false;      // スポーン時に自動で点火するか
-    public float explodeRange = 3.0f;        // 爆風範囲（追加拡張用）
+    public float explodeRange = 1.0f;        // 爆風範囲（追加拡張用）
 
     [Header("References")]
     public TileDigging tileDigging;          // TileDigging を Inspector でセット（未設定なら自動検索）
@@ -45,13 +45,13 @@ public class BombController : MonoBehaviour
         // 既にInspectorでセットされていなければ、シーン中の SoundManager を探してセットする
         if (SoundManager == null)
         {
-            SoundManager = FindObjectOfType<SoundManager>();
+            SoundManager = FindFirstObjectByType<SoundManager>();
             if (SoundManager == null)
                 Debug.LogWarning("BombController: SoundManager が見つかりません（シーンに存在しますか？）");
         }
 
         // TileDigging のフォールバックなど既存処理...
-        if (tileDigging == null) tileDigging = FindObjectOfType<TileDigging>();
+        if (tileDigging == null) tileDigging = FindFirstObjectByType<TileDigging>();
         if (explodeOnStart) Ignite();
     }
 
