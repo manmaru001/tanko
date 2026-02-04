@@ -86,17 +86,28 @@ public class ShowImage : MonoBehaviour
 
     public void OnMiningEnhancementBottom()
     {
-        m_playerController.attaackRadius++;
-        m_scoreManager.m_score--;
+
+        if (m_scoreManager.m_score > 0)
+        {
+            m_playerController.attaackRadius++;
+            m_scoreManager.m_score--;
+        }
     }
 
-    public void OnBomEnhancementBottom()
+        public void OnBomEnhancementBottom()
     {
-        m_bombController.explodeRange++;
+        if (m_scoreManager.m_score > 0)
+        {
+            m_bombController.explodeRange++;
+            m_scoreManager.m_score--;
+        }
     }
 
     public void OnSpeedEnhancementBottom()
     {
-        
+        if (m_scoreManager.m_score > 0)
+        {
+            m_scoreManager.m_score--;
+        }
     }
 }
