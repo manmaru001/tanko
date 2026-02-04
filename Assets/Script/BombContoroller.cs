@@ -98,6 +98,8 @@ public class BombController : MonoBehaviour
         }
         else
         {
+
+
             Debug.LogWarning("BombController: TileDigging がアサインされていません。タイル破壊は行われません。");
         }
 

@@ -75,7 +75,7 @@ public class ShowImage : MonoBehaviour
 
     public void OnBomEnhancementBottom()
     {
-        m_bombController.blastRadiusTiles++;
+        m_bombController.explodeRange++;
     }
 
     public void OnSpeedEnhancementBottom()
