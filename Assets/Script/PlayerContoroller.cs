@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     //攻撃当たり判定(位置)
     public Transform AttackPoint;
 
+    //サウンド
+    public GameObject SoundManager;
+
     //当たり判定(レイヤー)
     public LayerMask StageLayer;
     public LayerMask enemyLayer;
@@ -46,7 +49,9 @@ public class PlayerController : MonoBehaviour
 
 
     //ボム設置
-    public GameObject bombPrefab;
+    public GameObject bombPrefab;//ボムプレハブ
+    public int maxBombs = 3;//設置可能ボム数
+
 
     // Start is called before the first frame update
     void Start()
@@ -85,6 +90,7 @@ public class PlayerController : MonoBehaviour
             Attack();
             attackTimer = attackCooldown;
             tileDigging.DigAtPlayer(transform.position, new Vector2(Mathf.Sign(transform.localScale.x), 0f));
+            SoundManager.GetComponent<SoundManager>().PlaySFX("Sound_Dig");
         }
         // 攻撃（Spaceキー）
         //if (Input.GetKey(KeyCode.Space)/* && attackTimer <= 0f*/)
@@ -95,7 +101,7 @@ public class PlayerController : MonoBehaviour
         //}
 
         //ボム設置（Bキー）
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && maxBombs > 0)
         {
             PlaceBomb();
         }
@@ -251,6 +257,7 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = transform.position; // または AttackPoint.position やワールドスナップ
         GameObject b = Instantiate(bombPrefab, pos, Quaternion.identity);
         b.GetComponent<BombController>().Ignite();
+        maxBombs--;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

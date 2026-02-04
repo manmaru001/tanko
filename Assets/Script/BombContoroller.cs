@@ -11,7 +11,7 @@ public class BombController : MonoBehaviour
 {
     [Header("Fuse / Explosion")]
     public float fuseTime = 3.0f;            // 点火から爆発までの時間（秒）
-    public const int blastRadiusTiles = 5;         // タイル単位の爆風半径
+    public const int blastRadiusTiles = 8;         // タイル単位の爆風半径
     public bool explodeOnStart = false;      // スポーン時に自動で点火するか
     public float explodeRange = 1.0f;        // 爆風範囲（追加拡張用）
 
@@ -98,6 +98,8 @@ public class BombController : MonoBehaviour
         }
         else
         {
+
+
             Debug.LogWarning("BombController: TileDigging がアサインされていません。タイル破壊は行われません。");
         }
 
