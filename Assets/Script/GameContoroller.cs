@@ -15,7 +15,7 @@ public class GameContoroller : MonoBehaviour
     void Update()
     {
         //スコアが10を超えたらシーンをチェンジ
-        if(ScoreManagerSingleton.instance.m_score >= 10)
+        if(ScoreManagerSingleton.instance.m_score >= 10000)
         {
             ChangeScene();
         }
