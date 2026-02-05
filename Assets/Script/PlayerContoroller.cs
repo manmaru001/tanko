@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     // 移動速度補正
     public float speedCorrection = 1.0f;
 
+    //ジャンプ力補正
+    public float jumpCorrection= 1.0f;
+
     public enum MOVE_TYPE { STOP, RIGHT, LEFT }
     public MOVE_TYPE move = MOVE_TYPE.STOP;
 
@@ -200,7 +203,7 @@ public class PlayerController : MonoBehaviour
     // ジャンプ
     private void Jump()
     {
-        rb.AddForce(Vector2.up * JumpPower);
+        rb.AddForce(Vector2.up * JumpPower * jumpCorrection);
     }
 
     /// <summary>
