@@ -23,6 +23,7 @@ public class TitleSceneContoroller : MonoBehaviour
 
     }
 
+    //シーン移行処理
     void ChangeScene()
     {
         //移動先のシーンの読み込み(サンプルシーン)

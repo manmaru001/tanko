@@ -21,6 +21,7 @@ public class Font : MonoBehaviour
         text.color = GetTextColorAlpha(text.color);
     }
 
+    //テキストのアルファ値をsinで変化させる
     Color GetTextColorAlpha(Color color)
     {
         //sinを元に0～1を往復する値を作成
