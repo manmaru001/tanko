@@ -11,7 +11,7 @@ public class JewelryController : MonoBehaviour
 
     void Start()
     {
-
+        //スコア初期化
         ScoreManagerSingleton.instance.m_score = 0;
 
         // 既にセットされていなければシーンから探す（SoundManager コンポーネントを探してその GameObject を取得）
