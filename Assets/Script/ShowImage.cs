@@ -107,26 +107,23 @@ public class ShowImage : MonoBehaviour
     public void OnMiningEnhancementBottom()
     {
 
-        //if (m_scoreManager.m_score > 0)
-        //{
-        //    m_playerController.digRange += 1;
-        //    m_scoreManager.m_score--;
-        //}
+        //Lv1→Lv2への強化
         if (m_miningLevel == 1)
         {
             if (ScoreManagerSingleton.instance.m_score > 9)
             {
-                m_playerController.digRange += 1;
+                m_playerController.digRange += 1.0f;//1.0→2.0fに増加
                 m_levelManager.m_miningLevel++;
                 ScoreManagerSingleton.instance.m_score -= 10;
                 m_miningLevel++;
             }
         }
+        //Lv2→Lv3への強化
         else if(m_miningLevel == 2)
         {
             if (ScoreManagerSingleton.instance.m_score > 99)
             {
-                m_playerController.digRange += 1;
+                m_playerController.digRange += 0.5f;//2.0→2.5に増加
                 m_levelManager.m_miningLevel++;
                 ScoreManagerSingleton.instance.m_score -= 100;
                 m_miningLevel++;
@@ -138,26 +135,24 @@ public class ShowImage : MonoBehaviour
     //爆弾強化ボタンが押されたときの処理
     public void OnBomEnhancementBottom()
     {
-        //if (m_scoreManager.m_score > 0)
-        //{
-        //    m_bombController.explodeRange += 2.0f;
-        //    m_scoreManager.m_score--;
-        //}
+
+        //Lv1→Lv2への強化
         if (m_bomLevel == 1)
         {
             if (ScoreManagerSingleton.instance.m_score > 9)
             {
-                m_bombController.explodeRange += 2.0f;
+                m_bombController.explodeRange += 1.0f;//1.0→2.0fに増加
                 m_levelManager.m_bomLevel++;
                 ScoreManagerSingleton.instance.m_score -= 10;
                 m_bomLevel++;
             }
         }
+        //Lv2→Lv3への強化
         else if (m_bomLevel == 2)
         {
             if (ScoreManagerSingleton.instance.m_score > 99)
             {
-                m_bombController.explodeRange += 2.0f;
+                m_bombController.explodeRange += 1.0f;//2.0→3.0に増加
                 m_levelManager.m_bomLevel++;
                 ScoreManagerSingleton.instance.m_score -= 100;
                 m_bomLevel++;
@@ -165,29 +160,28 @@ public class ShowImage : MonoBehaviour
         }
     }
 
-    //移動速度強化ボタンが押されたときの処理
+    //移動強化ボタンが押されたときの処理
     public void OnSpeedEnhancementBottom()
     {
-        //if (m_scoreManager.m_score > 0)
-        //{
-        //    m_playerController.speedCorrection += 1.0f;
-        //    m_scoreManager.m_score--;
-        //}
+        //Lv1→Lv2への強化
         if (m_speedLevel == 1)
         {
             if (ScoreManagerSingleton.instance.m_score > 9)
             {
-                m_playerController.speedCorrection += 1.0f;
+                m_playerController.speedCorrection += 1.0f;//1.0→2.0fに増加
+                m_playerController.jumpCorrection += 1.0f;//ジャンプ力も増加
                 m_levelManager.m_speedLevel++;
                 ScoreManagerSingleton.instance.m_score -= 10;
                 m_speedLevel++;
             }
         }
+        //Lv2→Lv3への強化
         else if (m_speedLevel == 2)
         {
             if (ScoreManagerSingleton.instance.m_score > 99)
             {
-                m_playerController.speedCorrection += 1.0f;
+                m_playerController.speedCorrection += 1.0f;//2.0→3.0に増加
+                m_playerController.jumpCorrection += 1.0f;//ジャンプ力も増加
                 m_levelManager.m_speedLevel++;
                 ScoreManagerSingleton.instance.m_score -= 100;
                 m_speedLevel++;
