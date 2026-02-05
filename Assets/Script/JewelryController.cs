@@ -31,7 +31,7 @@ public class JewelryController : MonoBehaviour
     //プレイヤータグと衝突したらオブジェクトを破壊
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("player"))
         {
             Destroy(gameObject);
             //m_scoreManager.m_score++;
