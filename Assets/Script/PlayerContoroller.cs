@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public Transform AttackPoint;
 
     // サウンド（Scene上の SoundManager オブジェクトを Inspector でセット）
-    public GameObject SoundManager;
+    public SoundManager soundManager;
 
     // 当たり判定(レイヤー)
     public LayerMask StageLayer;
@@ -92,6 +92,9 @@ public class PlayerController : MonoBehaviour
         boxCol = GetComponent<BoxCollider2D>();
         if (boxCol == null) Debug.LogWarning("PlayerController: BoxCollider2D がありません。段差処理は機能しません。");
 
+        // SoundManager 取得
+        soundManager = FindFirstObjectByType<SoundManager>();
+
 
     }
 
@@ -128,9 +131,9 @@ public class PlayerController : MonoBehaviour
             if (removed > 0)
             {
                 // 音の重複による音割れ防止
-                if (SoundManager != null && Time.time - lastDigSoundTime > digSoundInterval)
+                if (soundManager != null && Time.time - lastDigSoundTime > digSoundInterval)
                 {
-                    var sm = SoundManager.GetComponent<SoundManager>();
+                    var sm = soundManager.GetComponent<SoundManager>();
                     if (sm != null)
                     {
                         // ピッチを変更して再生する
