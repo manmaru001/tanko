@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ShowImage : MonoBehaviour
 {
@@ -24,9 +25,13 @@ public class ShowImage : MonoBehaviour
     //準備段階プレイヤー行動許可フラグ
     public bool m_readyPlayerAction = false;
 
+    // レベル管理
     int m_miningLevel = 1;
     int m_bomLevel = 1;
     int m_speedLevel = 1;
+
+    // 日付管理
+    int m_day = 0;
 
     void Start()
     {
@@ -57,8 +62,15 @@ public class ShowImage : MonoBehaviour
 
             hasFadedOut = true;
 
+
             // 時間差処理をスタートさせる
             StartCoroutine(WaitAndShow());
+        }
+
+        if(m_day == 3)
+        {
+            //移動先のシーンの読み込み(リザルトシーン)
+            SceneManager.LoadScene("ResultScene");
         }
     }
 
@@ -68,6 +80,7 @@ public class ShowImage : MonoBehaviour
         // 2秒間待機
         yield return new WaitForSeconds(2.0f);
 
+        m_day++;
 
         a.SetActive(true);
         miningEnhancement.SetActive(true);
