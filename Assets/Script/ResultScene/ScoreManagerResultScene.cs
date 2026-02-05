@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class ScoreResultScene : MonoBehaviour
 {
-
     public TextMeshProUGUI ScoreText;
+
     // Start is called before the first frame update
     void Start()
     {
+        //ÉXÉRÉAÇÃï`âÊ
         ScoreText.text = "Score:" + ScoreManagerSingleton.instance.m_score;
     }
 
