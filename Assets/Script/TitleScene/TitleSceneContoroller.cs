@@ -27,6 +27,7 @@ public class TitleSceneContoroller : MonoBehaviour
     {
         //移動先のシーンの読み込み(サンプルシーン)
         SceneManager.LoadScene("SampleScene");
+        
     }
 
 }
