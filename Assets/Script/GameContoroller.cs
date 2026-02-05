@@ -20,6 +20,13 @@ public class GameContoroller : MonoBehaviour
             ChangeScene();
         }
 
+        //デバッグ用Pキーでリザルトへ
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            ChangeScene();
+        }
+
+
     }
 
 

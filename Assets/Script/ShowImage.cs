@@ -17,6 +17,7 @@ public class ShowImage : MonoBehaviour
     [SerializeField] private Fade m_fade;
 
     //ScoreManager m_scoreManager;
+    LevelManager m_levelManager;
 
     private bool hasFadedOut = false;
 
@@ -26,6 +27,7 @@ public class ShowImage : MonoBehaviour
     void Start()
     {
         //m_scoreManager = FindFirstObjectByType<ScoreManager>();
+        m_levelManager = FindFirstObjectByType<LevelManager>();
 
         // ‰æ‘œ‚ð”ñ•\Ž¦‚É‚·‚é
         a.SetActive(false);
@@ -110,6 +112,7 @@ public class ShowImage : MonoBehaviour
         if(ScoreManagerSingleton.instance.m_score > 0)
         {
             m_playerController.digRange += 1;
+            m_levelManager.m_miningLevel++;
             ScoreManagerSingleton.instance.m_score--;
         }
 
@@ -127,6 +130,7 @@ public class ShowImage : MonoBehaviour
         if(ScoreManagerSingleton.instance.m_score > 0)
         {
             m_bombController.explodeRange += 2.0f;
+            m_levelManager.m_bomLevel++;
             ScoreManagerSingleton.instance.m_score--;
         }
     }
@@ -143,6 +147,7 @@ public class ShowImage : MonoBehaviour
         if(ScoreManagerSingleton.instance.m_score > 0)
         {
             m_playerController.speedCorrection += 1.0f;
+            m_levelManager.m_speedLevel++;
             ScoreManagerSingleton.instance.m_score--;
         }
 
