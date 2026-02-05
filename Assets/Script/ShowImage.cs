@@ -76,6 +76,8 @@ public class ShowImage : MonoBehaviour
 
         // 準備段階プレイヤー行動許可フラグをtrueにする
         m_readyPlayerAction = true;
+
+
     }
 
     public void OnRetryButton()
@@ -100,6 +102,12 @@ public class ShowImage : MonoBehaviour
 
         // 準備段階プレイヤー行動許可フラグをfalseにする
         m_readyPlayerAction = false;
+
+        //爆弾の所持数をリセット
+        m_playerController.maxBombs = 3;
+
+        //タイルをリセット
+        m_playerController.ResetTiles();
 
     }
 

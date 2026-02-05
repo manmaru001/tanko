@@ -422,5 +422,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //タイルリセット
+    public void ResetTiles()
+    {
+        tileDigging.ResetToInitial();//タイルを初期状態に戻す
+        transform.position = playerStartPos;//プレイヤー初期位置に戻す
+    } 
     
 }

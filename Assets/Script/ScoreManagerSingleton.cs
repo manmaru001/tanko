@@ -6,7 +6,12 @@ public class ScoreManagerSingleton : MonoBehaviour
 {
 
     public static ScoreManagerSingleton instance; //インスタンス定義
-    public int m_score; //アクセスする変数
+    public int m_score = 0;//アクセスする変数
+
+    void Start()
+    {
+        m_score = 0;
+    }
 
     private void Awake()
     {
@@ -24,12 +29,6 @@ public class ScoreManagerSingleton : MonoBehaviour
 
     }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour
 {
     private Text m_txt;
-    public int m_score;
+    public int m_score = 0;
     public string m_strFormat;
 
     // Start is called before the first frame update
