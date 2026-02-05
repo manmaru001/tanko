@@ -24,6 +24,10 @@ public class ShowImage : MonoBehaviour
     //準備段階プレイヤー行動許可フラグ
     public bool m_readyPlayerAction = false;
 
+    int m_miningLevel = 1;
+    int m_bomLevel = 1;
+    int m_speedLevel = 1;
+
     void Start()
     {
         //m_scoreManager = FindFirstObjectByType<ScoreManager>();
@@ -108,12 +112,25 @@ public class ShowImage : MonoBehaviour
         //    m_playerController.digRange += 1;
         //    m_scoreManager.m_score--;
         //}
-
-        if(ScoreManagerSingleton.instance.m_score > 0)
+        if (m_miningLevel == 1)
         {
-            m_playerController.digRange += 1;
-            m_levelManager.m_miningLevel++;
-            ScoreManagerSingleton.instance.m_score--;
+            if (ScoreManagerSingleton.instance.m_score > 9)
+            {
+                m_playerController.digRange += 1;
+                m_levelManager.m_miningLevel++;
+                ScoreManagerSingleton.instance.m_score -= 10;
+                m_miningLevel++;
+            }
+        }
+        else if(m_miningLevel == 2)
+        {
+            if (ScoreManagerSingleton.instance.m_score > 99)
+            {
+                m_playerController.digRange += 1;
+                m_levelManager.m_miningLevel++;
+                ScoreManagerSingleton.instance.m_score -= 100;
+                m_miningLevel++;
+            }
         }
 
     }
@@ -126,12 +143,25 @@ public class ShowImage : MonoBehaviour
         //    m_bombController.explodeRange += 2.0f;
         //    m_scoreManager.m_score--;
         //}
-
-        if(ScoreManagerSingleton.instance.m_score > 0)
+        if (m_bomLevel == 1)
         {
-            m_bombController.explodeRange += 2.0f;
-            m_levelManager.m_bomLevel++;
-            ScoreManagerSingleton.instance.m_score--;
+            if (ScoreManagerSingleton.instance.m_score > 9)
+            {
+                m_bombController.explodeRange += 2.0f;
+                m_levelManager.m_bomLevel++;
+                ScoreManagerSingleton.instance.m_score -= 10;
+                m_bomLevel++;
+            }
+        }
+        else if (m_bomLevel == 2)
+        {
+            if (ScoreManagerSingleton.instance.m_score > 99)
+            {
+                m_bombController.explodeRange += 2.0f;
+                m_levelManager.m_bomLevel++;
+                ScoreManagerSingleton.instance.m_score -= 100;
+                m_bomLevel++;
+            }
         }
     }
 
@@ -143,12 +173,25 @@ public class ShowImage : MonoBehaviour
         //    m_playerController.speedCorrection += 1.0f;
         //    m_scoreManager.m_score--;
         //}
-
-        if(ScoreManagerSingleton.instance.m_score > 0)
+        if (m_speedLevel == 1)
         {
-            m_playerController.speedCorrection += 1.0f;
-            m_levelManager.m_speedLevel++;
-            ScoreManagerSingleton.instance.m_score--;
+            if (ScoreManagerSingleton.instance.m_score > 9)
+            {
+                m_playerController.speedCorrection += 1.0f;
+                m_levelManager.m_speedLevel++;
+                ScoreManagerSingleton.instance.m_score -= 10;
+                m_speedLevel++;
+            }
+        }
+        else if (m_speedLevel == 2)
+        {
+            if (ScoreManagerSingleton.instance.m_score > 99)
+            {
+                m_playerController.speedCorrection += 1.0f;
+                m_levelManager.m_speedLevel++;
+                ScoreManagerSingleton.instance.m_score -= 100;
+                m_speedLevel++;
+            }
         }
 
     }
