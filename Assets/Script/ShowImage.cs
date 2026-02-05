@@ -20,6 +20,9 @@ public class ShowImage : MonoBehaviour
 
     private bool hasFadedOut = false;
 
+    //準備段階プレイヤー行動許可フラグ
+    public bool m_readyPlayerAction = false;
+
     void Start()
     {
         //m_scoreManager = FindFirstObjectByType<ScoreManager>();
@@ -64,6 +67,9 @@ public class ShowImage : MonoBehaviour
         miningEnhancement.SetActive(true);
         bomEnhancement.SetActive(true);
         speedEnhancement.SetActive(true);
+
+        // 準備段階プレイヤー行動許可フラグをtrueにする
+        m_readyPlayerAction = true;
     }
 
     public void OnRetryButton()
@@ -86,8 +92,12 @@ public class ShowImage : MonoBehaviour
 
         m_fade.FadeIn(2.0f);
 
+        // 準備段階プレイヤー行動許可フラグをfalseにする
+        m_readyPlayerAction = false;
+
     }
 
+    //採掘強化ボタンが押されたときの処理
     public void OnMiningEnhancementBottom()
     {
 
@@ -105,7 +115,7 @@ public class ShowImage : MonoBehaviour
 
     }
 
-
+    //爆弾強化ボタンが押されたときの処理
     public void OnBomEnhancementBottom()
     {
         //if (m_scoreManager.m_score > 0)
@@ -121,6 +131,7 @@ public class ShowImage : MonoBehaviour
         }
     }
 
+    //移動速度強化ボタンが押されたときの処理
     public void OnSpeedEnhancementBottom()
     {
         //if (m_scoreManager.m_score > 0)

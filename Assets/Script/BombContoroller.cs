@@ -74,12 +74,14 @@ public class BombController : MonoBehaviour
         StartCoroutine(ExplodeAndCleanup());
     }
 
+    /// <summary> 点火から爆発までのコルーチン </summary>
     IEnumerator FuseCoroutine()
     {
         yield return new WaitForSeconds(fuseTime);
         yield return ExplodeAndCleanup();
     }
 
+    /// <summary> 爆発処理と後処理 </summary>
     IEnumerator ExplodeAndCleanup()
     {
         // 1) エフェクト
@@ -151,10 +153,24 @@ public class BombController : MonoBehaviour
         }
 
         // 5) プレイヤー検出（必要ならここで処理）
-        bool playerInRange = IsPlayerInRange(tileRadius);
-        if (playerInRange)
+        Collider2D[] players = Physics2D.OverlapCircleAll(transform.position, worldRadius, playerLayer);
+        if (players != null && players.Length > 0)
         {
-            Debug.Log("BombController: Player is inside explosion radius!");
+            foreach (var pcol in players)
+            {
+                if (pcol == null) continue;
+                var pc = pcol.GetComponent<PlayerController>();
+                if (pc != null)
+                {
+                    // PlayerController に専用メソッドを作っておき、そこへ通知する
+                    pc.OnBombHit();
+                }
+                else
+                {
+                    // プレイヤーが別コンポーネント構成なら別対応
+                    Debug.Log("BombController: プレイヤーの PlayerController が見つかりません。");
+                }
+            }
         }
 
         // 6) 後処理（爆弾の削除 / プール戻し）
@@ -182,26 +198,6 @@ public class BombController : MonoBehaviour
         }
         // フォールバック（tileRadius が 0 の場合は 0）
         return tileRadius * 1f;
-    }
-
-    /// <summary>
-    /// blastRadiusTiles と explodeRange を掛け合わせたタイル半径を用いてプレイヤーが範囲内か判定。
-    /// （必要なときは tileRadius を受け取るオーバーロードで使う）
-    /// </summary>
-    public bool IsPlayerInRange()
-    {
-        int tileRadius = Mathf.Max(0, Mathf.CeilToInt(blastRadiusTiles * explodeRange));
-        return IsPlayerInRange(tileRadius);
-    }
-
-    /// <summary>
-    /// タイル半径を指定して判定するオーバーロード
-    /// </summary>
-    public bool IsPlayerInRange(int tileRadius)
-    {
-        float worldRadius = ComputeWorldRadiusForTileRadius(tileRadius);
-        Collider2D hit = Physics2D.OverlapCircle(transform.position, worldRadius, playerLayer);
-        return hit != null;
     }
 
     // Sceneビューで爆風範囲を可視化

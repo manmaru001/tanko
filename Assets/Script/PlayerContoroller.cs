@@ -32,11 +32,14 @@ public class PlayerController : MonoBehaviour
     public enum MOVE_TYPE { STOP, RIGHT, LEFT }
     public MOVE_TYPE move = MOVE_TYPE.STOP;
 
+    // タイル掘削
     public TileDigging tileDigging;
 
-    // 攻撃のクールダウン
-    public float attackCooldown = 0.25f; // 連打間隔（秒）
-    private float attackTimer = 0f;
+    //準備段階
+    public ShowImage showImage;
+
+    //爆弾コントロール
+    public BombController bombController;
 
     // 掘削範囲（変更可）
     public float digRange = 2.0f;
@@ -52,16 +55,23 @@ public class PlayerController : MonoBehaviour
     // 内部：アニメ coroutine 管理
     Coroutine digAnimCoroutine = null;
 
+    //プレイヤー初期位置
+    public Vector3 playerStartPos;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        //初期位置を記録
+        playerStartPos = transform.position;
     }
 
     void Update()
     {
-        attackTimer -= Time.deltaTime;
 
+        // 準備段階プレイヤー行動許可フラグが立っていたら何もしない
+        if (showImage.m_readyPlayerAction) return;
         // ダッシュ準備
         DashPreparation();
 
@@ -85,8 +95,6 @@ public class PlayerController : MonoBehaviour
         // 掘削 / 攻撃：マウス左ボタンをホールドで連続掘削（attackCooldown で制御）
         if (Input.GetMouseButton(0))
         {
-            attackTimer = attackCooldown;
-
             // Attack() は壊したタイル数を返すようにする
             int removed = Attack();
 
@@ -228,6 +236,13 @@ public class PlayerController : MonoBehaviour
         maxBombs--;
     }
 
+    public void OnBombHit()
+    {
+        // ボムに当たったときの処理
+        ScoreManagerSingleton.instance.m_score /= 2;//スコア半減
+        transform.position = playerStartPos;//プレイヤー初期位置に戻す
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Ground")
@@ -235,4 +250,6 @@ public class PlayerController : MonoBehaviour
             // 着地時処理（必要なら）
         }
     }
+
+
 }
