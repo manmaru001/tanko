@@ -17,6 +17,8 @@ public class ShowImage : MonoBehaviour
     public BombController m_bombController;
     [SerializeField] private Fade m_fade;
 
+    public SoundManager m_soundManager;
+
     //ScoreManager m_scoreManager;
     LevelManager m_levelManager;
 
@@ -35,6 +37,9 @@ public class ShowImage : MonoBehaviour
 
     void Start()
     {
+        //SoundManagerの取得
+        m_soundManager = FindFirstObjectByType<SoundManager>();
+
         //m_scoreManager = FindFirstObjectByType<ScoreManager>();
         m_levelManager = FindFirstObjectByType<LevelManager>();
 
@@ -114,6 +119,9 @@ public class ShowImage : MonoBehaviour
         // 準備段階プレイヤー行動許可フラグをfalseにする
         m_readyPlayerAction = false;
 
+        // タイルリセット
+        m_playerController.ResetTiles();
+
     }
 
     //採掘強化ボタンが押されたときの処理
@@ -129,6 +137,9 @@ public class ShowImage : MonoBehaviour
                 m_levelManager.m_miningLevel++;
                 ScoreManagerSingleton.instance.m_score -= 10;
                 m_miningLevel++;
+
+                //音の再生
+                m_soundManager.PlaySFX("Sound_Decide");
             }
         }
         //Lv2→Lv3への強化
@@ -140,6 +151,9 @@ public class ShowImage : MonoBehaviour
                 m_levelManager.m_miningLevel++;
                 ScoreManagerSingleton.instance.m_score -= 100;
                 m_miningLevel++;
+
+                //音の再生
+                m_soundManager.PlaySFX("Sound_Decide");
             }
         }
 
@@ -158,6 +172,9 @@ public class ShowImage : MonoBehaviour
                 m_levelManager.m_bomLevel++;
                 ScoreManagerSingleton.instance.m_score -= 10;
                 m_bomLevel++;
+
+                //音の再生
+                m_soundManager.PlaySFX("Sound_Decide");
             }
         }
         //Lv2→Lv3への強化
@@ -169,6 +186,9 @@ public class ShowImage : MonoBehaviour
                 m_levelManager.m_bomLevel++;
                 ScoreManagerSingleton.instance.m_score -= 100;
                 m_bomLevel++;
+
+                //音の再生
+                m_soundManager.PlaySFX("Sound_Decide");
             }
         }
     }
@@ -186,6 +206,9 @@ public class ShowImage : MonoBehaviour
                 m_levelManager.m_speedLevel++;
                 ScoreManagerSingleton.instance.m_score -= 10;
                 m_speedLevel++;
+
+                //音の再生
+                m_soundManager.PlaySFX("Sound_Decide");
             }
         }
         //Lv2→Lv3への強化
@@ -198,6 +221,9 @@ public class ShowImage : MonoBehaviour
                 m_levelManager.m_speedLevel++;
                 ScoreManagerSingleton.instance.m_score -= 100;
                 m_speedLevel++;
+
+                //音の再生
+                m_soundManager.PlaySFX("Sound_Decide");
             }
         }
 
