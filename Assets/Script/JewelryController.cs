@@ -34,7 +34,6 @@ public class JewelryController : MonoBehaviour
         if (collision.CompareTag("player"))
         {
             Destroy(gameObject);
-            //m_scoreManager.m_score++;
 
             ScoreManagerSingleton.instance.m_score++;
         }
