@@ -101,11 +101,24 @@ public class PlayerController : MonoBehaviour
             // タイルが一つでも壊れたら効果音を鳴らす
             if (removed > 0)
             {
-                if (SoundManager != null)
+                // 音の重複による音割れ防止
+                if (SoundManager != null && Time.time - lastDigSoundTime > digSoundInterval)
                 {
                     var sm = SoundManager.GetComponent<SoundManager>();
-                    if (sm != null) sm.PlaySFX("Sound_Dig");
+                    if (sm != null)
+                    {
+                        // ピッチを変更して再生する
+                        float randomPitch = Random.Range(0.8f, 1.2f);
+                        sm.PlaySFX("Sound_Dig", 1.0f, randomPitch);
+
+                        lastDigSoundTime = Time.time; // 再生時間を更新
+                    }
                 }
+                //if (SoundManager != null)
+                //{
+                //    var sm = SoundManager.GetComponent<SoundManager>();
+                //    if (sm != null) sm.PlaySFX("Sound_Dig");
+                //}
             }
 
             // アニメーション：掘削中フラグを短時間 true にする
