@@ -11,7 +11,7 @@ public class ScoreResultScene : MonoBehaviour
     void Start()
     {
         //ÉXÉRÉAÇÃï`âÊ
-        ScoreText.text = "Score:" + ScoreManagerSingleton.instance.m_score;
+        ScoreText.text = "Score:" + ScoreManagerSingleton.instance.m_score.ToString();
     }
 
     // Update is called once per frame
