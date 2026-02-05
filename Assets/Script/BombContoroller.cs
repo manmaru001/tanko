@@ -36,6 +36,10 @@ public class BombController : MonoBehaviour
     public bool usePooling = false;          // プール利用時は true（ここでは単純 Destroy）
     public float destroyDelay = 0.1f;        // 爆発後にオブジェクトを消すまでの猶予
 
+    [Header("Particles")]
+    [Tooltip("爆発時に出す 'Bomb Particle' のプレハブ（ParticleSystem）をセット")]
+    public ParticleSystem bombParticlePrefab;
+
     // 内部
     bool isArmed = false;
 
@@ -87,6 +91,22 @@ public class BombController : MonoBehaviour
         // 1) エフェクト
         if (explosionEffect != null) Instantiate(explosionEffect, transform.position, Quaternion.identity);
 
+        if (bombParticlePrefab != null)
+        {
+            // ParticleSystem プレハブを生成して再生
+            ParticleSystem ps = Instantiate(bombParticlePrefab, transform.position, Quaternion.identity);
+            var main = ps.main;
+            ps.Play();
+
+            // 安全に破棄するために寿命を計算して Destroy（duration + startLifetime の最大値）
+            float lifetime = main.duration;
+            // startLifetime は MinMaxCurve なので constantMax を使う（幅がある場合に最大を取る）
+            lifetime += main.startLifetime.constantMax;
+            Destroy(ps.gameObject, lifetime + 0.1f); // 余裕を少し追加
+        }
+
+
+
         // サウンド：優先して SoundManager 経由で鳴らす（プロジェクトで PlaySFX("Sound_Bomb") を登録している前提）
         if (SoundManager != null)
         {
@@ -108,6 +128,7 @@ public class BombController : MonoBehaviour
         if (tileDigging != null && tileDigging.groundTilemap != null)
         {
             tileDigging.DigArea(transform.position, tileRadius);
+
         }
         else
         {
@@ -134,8 +155,6 @@ public class BombController : MonoBehaviour
                 }
             }
         }
-
-        // 3) 敵ダメージ等（必要なら実装）
 
         // 4) 物理オブジェクトへの爆風力（減衰あり）
         if (rigidbodyLayer != 0 && explosionForce > 0f)

@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 7473752613737995265, guid: 32677701ed04bf443b6253cfcb0ecf54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -113,6 +113,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   explosionForce: 300
+  SoundManager: {fileID: 0}
   jewelryLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -121,6 +122,7 @@ MonoBehaviour:
     m_Bits: 128
   usePooling: 0
   destroyDelay: 0.1
+  bombParticlePrefab: {fileID: 5104476536082619045, guid: 61e7f3ef85ef7ee46964c22b44352bba, type: 3}
 --- !u!58 &1960390990527495494
 CircleCollider2D:
   m_ObjectHideFlags: 0

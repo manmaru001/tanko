@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public float speedCorrection = 1.0f;
 
     //ジャンプ力補正
-    public float jumpCorrection= 1.0f;
+    public float jumpCorrection = 1.0f;
 
     public enum MOVE_TYPE { STOP, RIGHT, LEFT }
     public MOVE_TYPE move = MOVE_TYPE.STOP;
@@ -77,6 +77,10 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D boxCol; // プレイヤーの当たり判定
     [Header("Step Debug")]
     public bool debugStep = true;
+
+    [Header("Particles")]
+    [Tooltip("採掘時に出す 'Mining Particle' のプレハブ（ParticleSystem）をセット")]
+    public ParticleSystem MiningParticlePrefab;
 
     void Start()
     {
@@ -134,6 +138,21 @@ public class PlayerController : MonoBehaviour
                         sm.PlaySFX("Sound_Dig", 1.0f, randomPitch);
 
                         lastDigSoundTime = Time.time; // 再生時間を更新
+
+                        if (MiningParticlePrefab != null)
+                        {
+                            // ParticleSystem プレハブを生成して再生
+                            ParticleSystem ps = Instantiate(MiningParticlePrefab, transform.position, Quaternion.identity);
+                            var main = ps.main;
+                            ps.Play();
+
+                            // 安全に破棄するために寿命を計算して Destroy（duration + startLifetime の最大値）
+                            float lifetime = main.duration;
+                            // startLifetime は MinMaxCurve なので constantMax を使う（幅がある場合に最大を取る）
+                            lifetime += main.startLifetime.constantMax;
+                            Destroy(ps.gameObject, lifetime + 0.1f); // 余裕を少し追加
+                        }
+
                     }
                 }
             }
