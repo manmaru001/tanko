@@ -11,6 +11,7 @@ public class ShowImage : MonoBehaviour
     [SerializeField] private GameObject miningEnhancement; // 採掘強化ボタン
     [SerializeField] private GameObject bomEnhancement;    // 爆弾強化ボタン
     [SerializeField] private GameObject speedEnhancement;  // スピード強化ボタン
+    [SerializeField] private GameObject Cost;  // コスト表示
 
     public GameTimer m_gameTimer;
     public PlayerController m_playerController;
@@ -52,6 +53,7 @@ public class ShowImage : MonoBehaviour
         miningEnhancement.SetActive(false);
         bomEnhancement.SetActive(false);
         speedEnhancement.SetActive(false);
+        Cost.SetActive(false);
 
         m_playerController.attaackRadius = 1;
         m_bombController.explodeRange = 1;
@@ -97,6 +99,8 @@ public class ShowImage : MonoBehaviour
         miningEnhancement.SetActive(true);
         bomEnhancement.SetActive(true);
         speedEnhancement.SetActive(true);
+        Cost.SetActive(true);
+
 
         // 準備段階プレイヤー行動許可フラグをtrueにする
         m_readyPlayerAction = true;
@@ -119,6 +123,7 @@ public class ShowImage : MonoBehaviour
         miningEnhancement.SetActive(false);
         bomEnhancement.SetActive(false);
         speedEnhancement.SetActive(false);
+        Cost.SetActive(false);
 
         hasFadedOut = false;
 
