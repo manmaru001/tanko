@@ -21,6 +21,7 @@ public class ShowImage : MonoBehaviour
 
     //ScoreManager m_scoreManager;
     LevelManager m_levelManager;
+    DayManager m_dayManager;
 
     private bool hasFadedOut = false;
 
@@ -33,7 +34,7 @@ public class ShowImage : MonoBehaviour
     int m_speedLevel = 1;
 
     // 日付管理
-    int m_day = 0;
+    int m_day = 1;
 
     void Start()
     {
@@ -42,6 +43,8 @@ public class ShowImage : MonoBehaviour
 
         //m_scoreManager = FindFirstObjectByType<ScoreManager>();
         m_levelManager = FindFirstObjectByType<LevelManager>();
+
+        m_dayManager = FindFirstObjectByType<DayManager>();
 
         // 画像を非表示にする
         a.SetActive(false);
@@ -72,11 +75,14 @@ public class ShowImage : MonoBehaviour
             StartCoroutine(WaitAndShow());
         }
 
-        if(m_day == 3)
+        if (m_day == 4)
         {
             //移動先のシーンの読み込み(リザルトシーン)
             SceneManager.LoadScene("ResultScene");
         }
+
+        //表示する日付とリンクさせる
+        m_dayManager.m_dayCount = m_day;
     }
 
     // 待機時間を作るための処理
