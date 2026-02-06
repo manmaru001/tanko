@@ -94,6 +94,8 @@ public class ShowImage : MonoBehaviour
 
         // 準備段階プレイヤー行動許可フラグをtrueにする
         m_readyPlayerAction = true;
+
+        m_playerController.maxBombs = 3;
     }
 
     public void OnRetryButton()
