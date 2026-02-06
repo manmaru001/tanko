@@ -1,0 +1,699 @@
+fileFormatVersion: 2
+guid: 40581c30af47e7e46b59aaf9824aa384
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3318401293308596507
+    second: Cost_0
+  - first:
+      213: -1906022015300078489
+    second: Cost_1
+  - first:
+      213: -7711669799219731955
+    second: Cost_2
+  - first:
+      213: -2062319220980856973
+    second: Cost_3
+  - first:
+      213: -5283566773393195574
+    second: Cost_4
+  - first:
+      213: -3218201758862313291
+    second: Cost_5
+  - first:
+      213: 4034028650946942548
+    second: Cost_6
+  - first:
+      213: 410296938291764016
+    second: Cost_7
+  - first:
+      213: -6870219383473486703
+    second: Cost_8
+  - first:
+      213: 8486995100804879347
+    second: Cost_9
+  - first:
+      213: -5488821329682801145
+    second: Cost_10
+  - first:
+      213: 7080684739482827444
+    second: Cost_11
+  - first:
+      213: -1996642781380950607
+    second: Cost_12
+  - first:
+      213: -6786508290962083167
+    second: Cost_13
+  - first:
+      213: 2225350221134827046
+    second: Cost_14
+  - first:
+      213: 5173557123412520375
+    second: Cost_15
+  - first:
+      213: 5104142514463545692
+    second: Cost_16
+  - first:
+      213: 5990633442513267595
+    second: Cost_17
+  - first:
+      213: -1983380800847730249
+    second: Cost_18
+  - first:
+      213: 7881388209820962553
+    second: Cost_19
+  - first:
+      213: 1859753430744887417
+    second: Cost_20
+  - first:
+      213: 9116297211485843657
+    second: Cost_21
+  - first:
+      213: 6950612280843627868
+    second: Cost_22
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cost_0
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 554
+        width: 118
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b111bd505645d0e20800000000000000
+      internalID: 3318401293308596507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_1
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 554
+        width: 73
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 764f6fb53137c85e0800000000000000
+      internalID: -1906022015300078489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_2
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 554
+        width: 116
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0266600d25aaf490800000000000000
+      internalID: -7711669799219731955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_3
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 622
+        width: 322
+        height: 209
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 377c9fb589b2163e0800000000000000
+      internalID: -2062319220980856973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_4
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 554
+        width: 141
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acd77dc53000da6b0800000000000000
+      internalID: -5283566773393195574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_5
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 554
+        width: 73
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b879731d86a653d0800000000000000
+      internalID: -3218201758862313291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_6
+      rect:
+        serializedVersion: 2
+        x: 1116
+        y: 554
+        width: 116
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 456d0715fafbbf730800000000000000
+      internalID: 4034028650946942548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_7
+      rect:
+        serializedVersion: 2
+        x: 1282
+        y: 582
+        width: 290
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03b9f4b34eaa1b500800000000000000
+      internalID: 410296938291764016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_8
+      rect:
+        serializedVersion: 2
+        x: 1648
+        y: 563
+        width: 193
+        height: 339
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1944f07eed318a0a0800000000000000
+      internalID: -6870219383473486703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_9
+      rect:
+        serializedVersion: 2
+        x: 1899
+        y: 555
+        width: 194
+        height: 364
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f394f1041dd7c570800000000000000
+      internalID: 8486995100804879347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_10
+      rect:
+        serializedVersion: 2
+        x: 2164
+        y: 529
+        width: 502
+        height: 413
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70e5ba8e41ac3d3b0800000000000000
+      internalID: -5488821329682801145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_11
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 103
+        width: 152
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ba37676145a34260800000000000000
+      internalID: 7080684739482827444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_12
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 103
+        width: 78
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b5c07018ff7a44e0800000000000000
+      internalID: -1996642781380950607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_13
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 103
+        width: 126
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a236f37aaa71d1a0800000000000000
+      internalID: -6786508290962083167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_14
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 178
+        width: 351
+        height: 227
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62e04975c3802ee10800000000000000
+      internalID: 2225350221134827046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_15
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 103
+        width: 154
+        height: 376
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bde1360bca2cc740800000000000000
+      internalID: 5173557123412520375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_16
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 103
+        width: 80
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c599191f29e85d640800000000000000
+      internalID: 5104142514463545692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_17
+      rect:
+        serializedVersion: 2
+        x: 1168
+        y: 103
+        width: 129
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8b24905061032350800000000000000
+      internalID: 5990633442513267595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_18
+      rect:
+        serializedVersion: 2
+        x: 1345
+        y: 133
+        width: 290
+        height: 301
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b924278bad9974e0800000000000000
+      internalID: -1983380800847730249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_19
+      rect:
+        serializedVersion: 2
+        x: 1716
+        y: 107
+        width: 215
+        height: 383
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fe8457c1d0506d60800000000000000
+      internalID: 7881388209820962553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_20
+      rect:
+        serializedVersion: 2
+        x: 1983
+        y: 103
+        width: 193
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 970fc5154eb2fc910800000000000000
+      internalID: 1859753430744887417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_21
+      rect:
+        serializedVersion: 2
+        x: 2212
+        y: 102
+        width: 204
+        height: 378
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c07f7d7308938e70800000000000000
+      internalID: 9116297211485843657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cost_22
+      rect:
+        serializedVersion: 2
+        x: 2485
+        y: 94
+        width: 502
+        height: 413
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5de6232b09857060800000000000000
+      internalID: 6950612280843627868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Cost_0: 3318401293308596507
+      Cost_1: -1906022015300078489
+      Cost_10: -5488821329682801145
+      Cost_11: 7080684739482827444
+      Cost_12: -1996642781380950607
+      Cost_13: -6786508290962083167
+      Cost_14: 2225350221134827046
+      Cost_15: 5173557123412520375
+      Cost_16: 5104142514463545692
+      Cost_17: 5990633442513267595
+      Cost_18: -1983380800847730249
+      Cost_19: 7881388209820962553
+      Cost_2: -7711669799219731955
+      Cost_20: 1859753430744887417
+      Cost_21: 9116297211485843657
+      Cost_22: 6950612280843627868
+      Cost_3: -2062319220980856973
+      Cost_4: -5283566773393195574
+      Cost_5: -3218201758862313291
+      Cost_6: 4034028650946942548
+      Cost_7: 410296938291764016
+      Cost_8: -6870219383473486703
+      Cost_9: 8486995100804879347
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
