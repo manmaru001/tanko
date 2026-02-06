@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &154491214574004304
 Transform:
   m_ObjectHideFlags: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fuseTime: 1.2
   explodeOnStart: 0
-  explodeRange: 2
+  explodeRange: 1
   tileDigging: {fileID: 0}
   explosionEffect: {fileID: 0}
   explosionSound: {fileID: 8300000, guid: 7ccc5534cea36ae4fa627a8e1d1f9083, type: 3}
