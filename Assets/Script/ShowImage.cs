@@ -11,11 +11,13 @@ public class ShowImage : MonoBehaviour
     [SerializeField] private GameObject miningEnhancement; // 採掘強化ボタン
     [SerializeField] private GameObject bomEnhancement;    // 爆弾強化ボタン
     [SerializeField] private GameObject speedEnhancement;  // スピード強化ボタン
+    [SerializeField] private GameObject Cost;  // コスト表示
 
     public GameTimer m_gameTimer;
     public PlayerController m_playerController;
     public BombController m_bombController;
     [SerializeField] private Fade m_fade;
+    [SerializeField] private FadeTMP m_fadeTMP;
 
     public SoundManager m_soundManager;
 
@@ -38,6 +40,8 @@ public class ShowImage : MonoBehaviour
 
     void Start()
     {
+        m_fadeTMP.FadeOut(0.0f);
+
         //SoundManagerの取得
         m_soundManager = FindFirstObjectByType<SoundManager>();
 
@@ -52,12 +56,15 @@ public class ShowImage : MonoBehaviour
         miningEnhancement.SetActive(false);
         bomEnhancement.SetActive(false);
         speedEnhancement.SetActive(false);
+        Cost.SetActive(false);
 
         m_playerController.attaackRadius = 1;
         m_bombController.explodeRange = 1;
         m_playerController.speedCorrection = 1.0f;
 
         m_fade.FadeIn(2.0f);
+
+        StartCoroutine(ShowAndWaitAndClose());
     }
 
     // Update is called once per frame
@@ -85,6 +92,19 @@ public class ShowImage : MonoBehaviour
         m_dayManager.m_dayCount = m_day;
     }
 
+    private IEnumerator ShowAndWaitAndClose()
+    {
+        // 2秒間待機
+        yield return new WaitForSeconds(2.0f);
+
+        m_fadeTMP.FadeIn(2.0f);
+
+        // 2秒間待機
+        yield return new WaitForSeconds(2.0f);
+
+        m_fadeTMP.FadeOut(2.0f);
+    }
+
     // 待機時間を作るための処理
     private IEnumerator WaitAndShow()
     {
@@ -97,6 +117,8 @@ public class ShowImage : MonoBehaviour
         miningEnhancement.SetActive(true);
         bomEnhancement.SetActive(true);
         speedEnhancement.SetActive(true);
+        Cost.SetActive(true);
+
 
         // 準備段階プレイヤー行動許可フラグをtrueにする
         m_readyPlayerAction = true;
@@ -119,6 +141,7 @@ public class ShowImage : MonoBehaviour
         miningEnhancement.SetActive(false);
         bomEnhancement.SetActive(false);
         speedEnhancement.SetActive(false);
+        Cost.SetActive(false);
 
         hasFadedOut = false;
 
@@ -130,6 +153,7 @@ public class ShowImage : MonoBehaviour
         // タイルリセット
         m_playerController.ResetTiles();
 
+        StartCoroutine(ShowAndWaitAndClose());
     }
 
     //採掘強化ボタンが押されたときの処理
