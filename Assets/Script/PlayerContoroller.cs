@@ -165,8 +165,8 @@ public class PlayerController : MonoBehaviour
             digAnimCoroutine = StartCoroutine(DoDigAnimCoroutine(digAnimTime));
         }
 
-        // ボム設置
-        if (Input.GetKeyDown(KeyCode.B) && maxBombs > 0)
+        //右クリックでボム設置
+        if (Input.GetMouseButtonDown(1) && maxBombs > 0)
         {
             PlaceBomb();
         }
