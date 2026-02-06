@@ -37,6 +37,7 @@ public class TitleSceneContoroller : MonoBehaviour
 
     void ChangeScene2()
     {
+        //ˆÚ“®æ‚ÌƒV[ƒ“‚Ì“Ç‚İ‚İ(‘€ì•û–@)
         SceneManager.LoadScene("GameRuleScene");
     }
 
