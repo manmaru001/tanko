@@ -17,6 +17,7 @@ public class ShowImage : MonoBehaviour
     public PlayerController m_playerController;
     public BombController m_bombController;
     [SerializeField] private Fade m_fade;
+    [SerializeField] private FadeTMP m_fadeTMP;
 
     public SoundManager m_soundManager;
 
@@ -39,6 +40,8 @@ public class ShowImage : MonoBehaviour
 
     void Start()
     {
+        m_fadeTMP.FadeOut(0.0f);
+
         //SoundManagerの取得
         m_soundManager = FindFirstObjectByType<SoundManager>();
 
@@ -60,6 +63,8 @@ public class ShowImage : MonoBehaviour
         m_playerController.speedCorrection = 1.0f;
 
         m_fade.FadeIn(2.0f);
+
+        StartCoroutine(ShowAndWaitAndClose());
     }
 
     // Update is called once per frame
@@ -85,6 +90,19 @@ public class ShowImage : MonoBehaviour
 
         //表示する日付とリンクさせる
         m_dayManager.m_dayCount = m_day;
+    }
+
+    private IEnumerator ShowAndWaitAndClose()
+    {
+        // 2秒間待機
+        yield return new WaitForSeconds(2.0f);
+
+        m_fadeTMP.FadeIn(2.0f);
+
+        // 2秒間待機
+        yield return new WaitForSeconds(2.0f);
+
+        m_fadeTMP.FadeOut(2.0f);
     }
 
     // 待機時間を作るための処理
@@ -135,6 +153,7 @@ public class ShowImage : MonoBehaviour
         // タイルリセット
         m_playerController.ResetTiles();
 
+        StartCoroutine(ShowAndWaitAndClose());
     }
 
     //採掘強化ボタンが押されたときの処理
