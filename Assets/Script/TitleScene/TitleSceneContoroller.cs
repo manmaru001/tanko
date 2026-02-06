@@ -17,18 +17,27 @@ public class TitleSceneContoroller : MonoBehaviour
         //左クリックでシーン移行
         if(Input.GetMouseButtonDown(0))
         {
-            ChangeScene();
+            ChangeScene1();
         }
-
+        if(Input.GetMouseButtonDown(1))
+        {
+            ChangeScene2();
+        }
 
     }
 
     //シーン移行処理
-    void ChangeScene()
+    void ChangeScene1()
     {
         //移動先のシーンの読み込み(サンプルシーン)
         SceneManager.LoadScene("SampleScene");
+       
         
+    }
+
+    void ChangeScene2()
+    {
+        SceneManager.LoadScene("GameRuleScene");
     }
 
 }
