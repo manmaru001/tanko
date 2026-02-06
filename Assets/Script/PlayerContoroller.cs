@@ -82,6 +82,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("採掘時に出す 'Mining Particle' のプレハブ（ParticleSystem）をセット")]
     public ParticleSystem MiningParticlePrefab;
 
+    [Header("UI")]
+    public ShowBomb bombUI;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();//Rigidbody2D取得
@@ -94,6 +97,10 @@ public class PlayerController : MonoBehaviour
 
         // SoundManager 取得
         soundManager = FindFirstObjectByType<SoundManager>();
+
+        //UI取得
+        bombUI = FindFirstObjectByType<ShowBomb>();
+        if (bombUI != null) bombUI.SetCount(maxBombs);
 
 
     }
@@ -289,6 +296,7 @@ public class PlayerController : MonoBehaviour
         GameObject b = Instantiate(bombPrefab, pos, Quaternion.identity);
         b.GetComponent<BombController>().Ignite();
         maxBombs--;
+        if (bombUI != null) bombUI.SetCount(maxBombs);
     }
 
     public void OnBombHit()
@@ -430,6 +438,6 @@ public class PlayerController : MonoBehaviour
     {
         tileDigging.ResetToInitial();//タイルを初期状態に戻す
         transform.position = playerStartPos;//プレイヤー初期位置に戻す
+        bombUI.SetCount(3);//ボムUIリセット
     } 
-    
 }
